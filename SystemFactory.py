@@ -60,3 +60,4 @@ class SystemFactory:
         # relations.append(Relation(nodes[current_node_id], nodes[rand_node_id]))
         relations.append(Relation(current_node_id, rand_node_id))
         return nodes, relations
+
