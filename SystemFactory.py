@@ -9,19 +9,20 @@ class SystemFactory:
     @staticmethod
     def create_system(density=10, size=10, attribute="q", initials_density=10, attribute_probability=30):
         """
-        :param density: Structure's density: between 0 to 100 percents.
+        :param density: Structure's density: between 0 and 100 percents.
         :type density: int, float
         :param size: number of nodes in the structure
         :type size: int
         :param attribute: attributes that may be added to each node
         :type attribute: list of strings
-        :param initials_density: represents the amount of initial states, 10 means 10% of nodes are initials, 0 means 1 initial node
+        :param initials_density: amount of initial states, 10 means 10% of nodes are initials, 0 means 1 initial node
         :type initials_density: int
-        :param attribute_probability: the probability of an attribute to appear on a node, between 0 to 100.
+        :param attribute_probability: the probability of an attribute to appear on a node, between 0 and 100.
         :type attribute_probability: int
         :return: Kripke structure with the desired parameters
         :rtype:  Kripke Structure
         """
+        # region initialization
         nodes = []
         relations = []
         current_relations_count = 0
@@ -31,7 +32,9 @@ class SystemFactory:
             num_of_initials = 1
         if num_of_initials > size:
             num_of_initials = size
-        # create nodes:
+        #endregion
+
+        # region Generate nodes
         for i in range(0, size):
             attributes = [attribute, ""]
             # node_attribute will store a list of 1 attribute according to the given probability:
@@ -40,8 +43,18 @@ class SystemFactory:
             # create a new node according the our parameters:
             nodes.append(Node(i, node_attribute[0], num_of_initials > 0))
             num_of_initials = num_of_initials - 1
-        # create relations:
+        # endregion
 
+        # region Generate relations
+        # region 100percent density case
+        if density == 100:
+            for node in nodes:
+                node.relations = all_system_indexes # each nodes is connected to the entire nodes in the system
+            return KripkeStructure(nodes)
+        # endregion
+
+        # region general case
+        # create relations:
         # generate minimum required relations:
         node_ids = list(range(0, size))
         random.shuffle(node_ids)
@@ -76,6 +89,8 @@ class SystemFactory:
             complement_set = all_system_indexes - chosen_node.relations
             chosen_node.add_relation(random.sample(complement_set, 1)[0])
             remaining_relations -= 1
+        # endregion
+        # endregion
 
         return KripkeStructure(nodes)
 
