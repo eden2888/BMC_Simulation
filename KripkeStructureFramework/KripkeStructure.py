@@ -1,4 +1,3 @@
-from KripkeStructureFramework import Relation
 from KripkeStructureFramework import Node
 
 
@@ -14,3 +13,6 @@ class KripkeStructure:
 
     def get_nodes(self):
         return self.__nodes
+
+    def get_size(self):
+        return len(self.__nodes)

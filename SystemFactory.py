@@ -5,6 +5,9 @@ import jsonpickle
 
 
 class SystemFactory:
+    """
+    This class handles the generation, import and export of systems that are implemented as Kripke Structures.
+    """
 
     @staticmethod
     def create_system(density=10, size=10, attribute="q", initials_density=10, attribute_probability=30):
@@ -32,15 +35,14 @@ class SystemFactory:
             num_of_initials = 1
         if num_of_initials > size:
             num_of_initials = size
-        #endregion
+        # endregion
 
         # region Generate nodes
         for i in range(0, size):
             attributes = [attribute, ""]
             # node_attribute will store a list of 1 attribute according to the given probability:
-            node_attribute = random.choices(attributes, weights=[attribute_probability, 100 - attribute_probability],
-                                            k=1)
-            # create a new node according the our parameters:
+            node_attribute = random.choices(attributes, weights=[attribute_probability, 100 - attribute_probability], k=1)
+            # create a new node according the parameters:
             nodes.append(Node(i, node_attribute[0], num_of_initials > 0))
             num_of_initials = num_of_initials - 1
         # endregion
@@ -49,7 +51,7 @@ class SystemFactory:
         # region 100percent density case
         if density == 100:
             for node in nodes:
-                node.relations = all_system_indexes # each nodes is connected to the entire nodes in the system
+                node.relations = all_system_indexes  # each nodes is connected to the entire nodes in the system
             return KripkeStructure(nodes)
         # endregion
 
