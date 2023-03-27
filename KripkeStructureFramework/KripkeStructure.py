@@ -8,8 +8,8 @@ class KripkeStructure:
         self.__nodes = nodes
 
     def get_initials(self):
-        # return filter(lambda node: node.isInitial == True , self.__nodes)
-        return [node for node in self.__nodes if node.is_initial]
+        #return filter(lambda node: node.isInitial == True , self.__nodes)
+        return [node for node in self.__nodes if node.isInitial]
 
     def get_nodes(self):
         return self.__nodes

@@ -3,6 +3,7 @@ import jsonpickle
 import z3
 from z3 import *
 from KripkeStructureFramework.KripkeStructure import KripkeStructure
+from SystemUtils import SystemUtils
 from SystemFactory import SystemFactory
 from Utils.StateRef import StateRef
 
@@ -46,24 +47,13 @@ if __name__ == '__main__':
     # SystemFactory.export_system("", "test_json.json", ks)
     # ks2 = SystemFactory.import_system("test_json.json")
 
-    # z3_tests()
-    x = Bool("x")
-    y = Bool("y")
-    x_or_y = Or([x, y])  # disjunction
-    x_and_y = And([x, y])  # conjunction
-    state_test = StateRef(x_and_y, 5)
-    not_x = Not(x)  # negation
-    print(type(x_and_y))
-    print(type(state_test))
-    s = Solver()  # create a solver s
+    ks = SystemFactory.create_system(size=4, initials_density=100) # dummy 2 initial system
+    formula = SystemUtils.get_i_formula(ks, 'x')
 
-    s.add(state_test)  # add the clause: x or y
-    print(s.check())
-    print(s.model())
-    print(state_test.state_id)
-  #  print(decimalToBinary(4, 10))
-   # print("done")
-
+    #output = ks.get_initials()
+    print(formula)
+    print('simplified: ')
+    print(simplify(formula))
     def pickle_test():
         frozen = jsonpickle.encode(ks)
         thawed = jsonpickle.decode(frozen)
