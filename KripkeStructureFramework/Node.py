@@ -8,6 +8,11 @@ class Node:
     def __str__(self):
         return 'index: {self.__index}, relations: {self.__relations}, isInitial: {self.__isInitial}'.format(self=self)
 
+    def __eq__(self, other):
+        if isinstance(other, Node):
+            return self.assignment == other.assignment
+        return False
+
     @property
     def relations(self):
         return self.__relations

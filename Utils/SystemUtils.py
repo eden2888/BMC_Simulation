@@ -56,8 +56,8 @@ class SystemUtils:
         return 0
 
     @staticmethod
-    def create_alpha_1(system1, system2):
-        T = T_Matrix(system1.get_size(), system2.get_size())
+    def create_alpha_1(system1, system2, T):
+        # T = T_Matrix(system1.get_size(), system2.get_size())
         alpha1 = None
         alpha1_expr_lst = []
         for q in system1.get_initials():
@@ -67,3 +67,18 @@ class SystemUtils:
             alpha1_expr_lst.append(Or(initial_row))
         alpha1 = And(alpha1_expr_lst)
         return alpha1
+
+    @staticmethod
+    def create_alpha_2(system1, system2, T):
+        exp_lst = []
+        for i in range(system1.get_size()):
+            for j in range(system2.get_size()):
+                expr = Implies(T[i][j], SystemUtils.equals(system1.get_nodes()[i], system2.get_nodes()[j]))
+                exp_lst.append(expr)
+        return And(exp_lst)
+
+    @staticmethod
+    def equals(node1, node2, eq_method=None):
+        if eq_method is None:
+            return node1 == node2
+        return eq_method(node1, node2)

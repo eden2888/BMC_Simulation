@@ -1,6 +1,7 @@
 import jsonpickle
 from z3 import *
 from KripkeStructureFramework.KripkeStructure import KripkeStructure
+from KripkeStructureFramework.KripkeStructure import Node
 from Utils.SystemUtils import SystemUtils
 from Utils.SystemFactory import SystemFactory
 from Utils.T_Matrix import T_Matrix
@@ -34,27 +35,26 @@ def z3_tests():
     print(eval(temp_str))
 
 
-# print(s3)
-# print(node_indexes)
-# print(s2.check())
-#    print(node_indexes[0])
-
-
 if __name__ == '__main__':
-    # ks = SystemFactory.create_system(density=100)
-    # SystemFactory.export_system("", "test_json.json", ks)
-    # ks2 = SystemFactory.import_system("test_json.json")
-
     ks1 = SystemFactory.create_system(size=2, initials_density=100, density=100)
     ks2 = SystemFactory.create_system(size=2, initials_density=100, density=100)
+    T = T_Matrix(ks1.get_size(), ks2.get_size())
     i_1 = SystemUtils.get_i_formula(ks1, 'x')
     i_2 = SystemUtils.get_i_formula(ks2, 'y')
     c = i_1.children()
+    #print assignments:
+    for node in ks1.get_nodes():
+        print("ks1 index: " + str(node.index) + " ks1 assignment: " + str(node.assignment))
+    for node in ks2.get_nodes():
+        print("ks2 index: " + str(node.index) + " ks2 assignment: " + str(node.assignment))
     # create T[m,n]:
-    alpha1 = SystemUtils.create_alpha_1(ks1, ks2)
+    alpha1 = SystemUtils.create_alpha_1(ks1, ks2, T)
     print(alpha1)
+    alpha2 = SystemUtils.create_alpha_2(ks1, ks2, T)
+    print(alpha2)
     s = Solver()
     s.add(alpha1)
+    s.add(alpha2)
     print(s.check())
     print(s.model())
             #if is_expr(alpha1):
