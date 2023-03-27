@@ -4,11 +4,14 @@ from Utils.StateRef import StateRef
 import z3
 from z3 import *
 
+from Utils.T_Matrix import T_Matrix
+
 
 class SystemUtils:
     """
     This class offers several static methods that returns certain data on different systems (Kripke Structures)
     """
+
     @staticmethod
     def decimalToPaddedBinary(n, total_len):
         not_padded = bin(n).replace("0b", "")
@@ -17,37 +20,31 @@ class SystemUtils:
 
     @staticmethod
     def get_i_formula(system, prefix):
-        i_formula_flag = 0
-        node_expr_flag = 0
-        # i_formula = and(state_refs)
+        i_formula = None
+        i_formula_lst = []
         num_of_nodes = system.get_size()
-        num_of_bits = int(math.log(num_of_nodes, 2))
+        num_of_bits = round(math.log(num_of_nodes, 2))
         indexes = BoolVector(prefix, num_of_bits)
         initial_nodes = system.get_initials()
+        # if no initial nodes, return false:
+        if len(initial_nodes) == 0:
+            return False
         # create state_ref for each node:
         for node in initial_nodes:
-            node_expr_flag = 0
-            node_expr = None
+            node_expr_lst = []
             true_bools = SystemUtils.decimalToPaddedBinary(node.index, num_of_bits)
-            node_expr = 0 #StateRef(And([]), node.index)
             for i in range(num_of_bits):
                 if true_bools[i] == '0':
                     index_expr = Not(indexes[i])
                 else:
                     index_expr = indexes[i]
 
-                if node_expr_flag == 0:
-                    node_expr = index_expr
-                    node_expr_flag = 1
-                else:
-                    node_expr = And([node_expr, index_expr])
-                #node_expr = And([node_expr, index_expr])
-            if i_formula_flag == 0:
-                i_formula = node_expr
-                i_formula_flag = 1
+                node_expr_lst.append(index_expr)
+            if len(node_expr_lst) > 1:
+                i_formula_lst.append(And(node_expr_lst))
             else:
-                i_formula = Or([i_formula, node_expr])
-
+                i_formula_lst.append(node_expr_lst[0])
+        i_formula = Or(i_formula_lst)
         return i_formula
 
     @staticmethod
@@ -58,3 +55,15 @@ class SystemUtils:
     def get_r_formula(system):
         return 0
 
+    @staticmethod
+    def create_alpha_1(system1, system2):
+        T = T_Matrix(system1.get_size(), system2.get_size())
+        alpha1 = None
+        alpha1_expr_lst = []
+        for q in system1.get_initials():
+            initial_row = []
+            for t in system2.get_initials():
+                initial_row.append(T[q.index][t.index])
+            alpha1_expr_lst.append(Or(initial_row))
+        alpha1 = And(alpha1_expr_lst)
+        return alpha1
