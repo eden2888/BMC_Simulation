@@ -5,6 +5,7 @@ from KripkeStructureFramework.Node import Node
 from Utils.SystemUtils import SystemUtils
 from Utils.SystemFactory import SystemFactory
 from Utils.T_Matrix import T_Matrix
+import PySide6.QtCore
 
 
 def z3_tests():
@@ -64,6 +65,13 @@ def create_test_structures():
 
 
 if __name__ == '__main__':
+    # Prints PySide6 version
+    print(PySide6.__version__)
+
+    # Prints the Qt version used to compile PySide6
+    print(PySide6.QtCore.__version__)
+    
+
     # ks1 = SystemFactory.create_system(size=3, initials_density=0, density=100)
     # ks2 = SystemFactory.create_system(size=2, initials_density=0, density=100, attribute_probability=30)
     ks1, ks2 = create_test_structures()
