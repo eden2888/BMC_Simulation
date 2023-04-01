@@ -36,27 +36,31 @@ def z3_tests():
 
 
 if __name__ == '__main__':
-    ks1 = SystemFactory.create_system(size=2, initials_density=100, density=100)
-    ks2 = SystemFactory.create_system(size=2, initials_density=100, density=100)
+    ks1 = SystemFactory.create_system(size=2, initials_density=0, density=100)
+    ks2 = SystemFactory.create_system(size=2, initials_density=0, density=100, attribute_probability=30)
     T = T_Matrix(ks1.get_size(), ks2.get_size())
     i_1 = SystemUtils.get_i_formula(ks1, 'x')
     i_2 = SystemUtils.get_i_formula(ks2, 'y')
     c = i_1.children()
     #print assignments:
     for node in ks1.get_nodes():
-        print("ks1 index: " + str(node.index) + " ks1 assignment: " + str(node.assignment))
+        print("ks1 index: " + str(node.index) + " ks1 assignment: " + str(node.assignment) + " initial: " + str(node.isInitial))
     for node in ks2.get_nodes():
-        print("ks2 index: " + str(node.index) + " ks2 assignment: " + str(node.assignment))
+        print("ks2 index: " + str(node.index) + " ks2 assignment: " + str(node.assignment) + " initial: " + str(node.isInitial))
     # create T[m,n]:
     alpha1 = SystemUtils.create_alpha_1(ks1, ks2, T)
-    print(alpha1)
+    print('Alpha 1: \n' + str(alpha1))
     alpha2 = SystemUtils.create_alpha_2(ks1, ks2, T)
-    print(alpha2)
+    print('Alpha 2: \n' + str(alpha2))
+    alpha3 = SystemUtils.create_alpha_3(ks1, ks2, T)
+    print('Alpha 3: \n' + str(alpha3))
     s = Solver()
     s.add(alpha1)
     s.add(alpha2)
+    s.add(alpha3)
     print(s.check())
-    print(s.model())
+    if s.check() != unsat:
+        print(s.model())
             #if is_expr(alpha1):
              #   alpha1 = Or(alpha1, T[q.index][t.index])
 

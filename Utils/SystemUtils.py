@@ -78,6 +78,27 @@ class SystemUtils:
         return And(exp_lst)
 
     @staticmethod
+    def create_alpha_3(system1, system2, T):
+        exp_lst = []
+        for i in range(system1.get_size()):
+            for j in range(system2.get_size()):
+                node1 = system1.get_nodes()[i]
+                node2 = system2.get_nodes()[j]
+                expr = Implies(T[i][j], SystemUtils.create_inner_alpha_3(node1, node2, T))
+                exp_lst.append(expr)
+        return And(exp_lst)
+
+    @staticmethod
+    def create_inner_alpha_3(node1, node2, T):
+        exp_lst = []
+        for child1 in node1.relations:
+            node_lst = []
+            for child2 in node2.relations:
+                node_lst.append(T[child1][child2])
+            exp_lst.append(Or(node_lst))
+        return And(exp_lst)
+
+    @staticmethod
     def equals(node1, node2, eq_method=None):
         if eq_method is None:
             return node1 == node2
