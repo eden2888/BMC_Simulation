@@ -1,7 +1,7 @@
 import jsonpickle
 from z3 import *
 from KripkeStructureFramework.KripkeStructure import KripkeStructure
-from KripkeStructureFramework.KripkeStructure import Node
+from KripkeStructureFramework.Node import Node
 from Utils.SystemUtils import SystemUtils
 from Utils.SystemFactory import SystemFactory
 from Utils.T_Matrix import T_Matrix
@@ -35,18 +35,49 @@ def z3_tests():
     print(eval(temp_str))
 
 
+def create_test_structures():
+    # m1 :
+    s0 = Node(0, isInitial=True)
+    s1 = Node(1)
+    s2 = Node(2)
+    s3 = Node(3, assignment='p')
+    s4 = Node(4)
+    s0.add_relation(1)
+    s0.add_relation(2)
+    s1.add_relation(3)
+    s2.add_relation(4)
+    s3.add_relation(3)
+    s4.add_relation(4)
+    m1 = KripkeStructure([s0, s1, s2, s3, s4])
+    # m2:
+    t0 = Node(0, isInitial=True)
+    t1 = Node(1)
+    t2 = Node(2, assignment='p')
+    t3 = Node(3)
+    t0.add_relation(1)
+    t1.add_relation(2)
+    t1.add_relation(3)
+    t2.add_relation(2)
+    t3.add_relation(3)
+    m2 = KripkeStructure([t0, t1, t2, t3])
+    return m1, m2
+
+
 if __name__ == '__main__':
-    ks1 = SystemFactory.create_system(size=2, initials_density=0, density=100)
-    ks2 = SystemFactory.create_system(size=2, initials_density=0, density=100, attribute_probability=30)
+    # ks1 = SystemFactory.create_system(size=3, initials_density=0, density=100)
+    # ks2 = SystemFactory.create_system(size=2, initials_density=0, density=100, attribute_probability=30)
+    ks1, ks2 = create_test_structures()
     T = T_Matrix(ks1.get_size(), ks2.get_size())
     i_1 = SystemUtils.get_i_formula(ks1, 'x')
     i_2 = SystemUtils.get_i_formula(ks2, 'y')
     c = i_1.children()
-    #print assignments:
+    # print assignments:
     for node in ks1.get_nodes():
-        print("ks1 index: " + str(node.index) + " ks1 assignment: " + str(node.assignment) + " initial: " + str(node.isInitial))
+        print("ks1 index: " + str(node.index) + " ks1 assignment: " + str(node.assignment) + " initial: " + str(
+            node.isInitial))
     for node in ks2.get_nodes():
-        print("ks2 index: " + str(node.index) + " ks2 assignment: " + str(node.assignment) + " initial: " + str(node.isInitial))
+        print("ks2 index: " + str(node.index) + " ks2 assignment: " + str(node.assignment) + " initial: " + str(
+            node.isInitial))
     # create T[m,n]:
     alpha1 = SystemUtils.create_alpha_1(ks1, ks2, T)
     print('Alpha 1: \n' + str(alpha1))
@@ -61,20 +92,7 @@ if __name__ == '__main__':
     print(s.check())
     if s.check() != unsat:
         print(s.model())
-            #if is_expr(alpha1):
-             #   alpha1 = Or(alpha1, T[q.index][t.index])
 
-
-
-
-    # for state in i_1.children():
-    #     if is_expr(final_exp):
-    #         final_exp = And([final_exp, And([state, i_2])])
-    #     else:
-    #         final_exp = And([state, i_2])
-   # print(final_exp)
-   # print(simplify(final_exp))
-    #output = ks.get_initials()
 
     def pickle_test():
         frozen = jsonpickle.encode(ks)
