@@ -10,6 +10,7 @@ import PySide6.QtCore
 
 def z3_tests():
     x = Bool("x")
+    
     y = Bool("y")
     x_or_y = Or([x, y])  # disjunction
     x_and_y = And([x, y])  # conjunction
