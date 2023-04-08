@@ -1,4 +1,8 @@
 import math
+
+import jsonpickle
+from datetime import date
+from KripkeStructureFramework.KripkeStructure import KripkeStructure
 from Utils import StateRef
 from Utils.StateRef import StateRef
 import z3
@@ -103,3 +107,18 @@ class SystemUtils:
         if eq_method is None:
             return node1 == node2
         return eq_method(node1, node2)
+
+    @staticmethod
+    def save_system(system, path):
+        nodes = system.get_nodes()
+        system_json = jsonpickle.encode(nodes)
+        with open(path, "w") as outfile:
+            outfile.write(system_json)
+
+    @staticmethod
+    def load_system(path):
+        system_json = open(path)
+        file_data = system_json.read()
+        decoded = jsonpickle.decode(file_data)
+        loaded_system = KripkeStructure(decoded)
+        return loaded_system

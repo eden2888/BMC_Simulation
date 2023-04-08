@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>669</width>
+    <width>691</width>
     <height>504</height>
    </rect>
   </property>
@@ -144,27 +144,14 @@ background-color: rgb(160, 210, 235);</string>
        </property>
       </widget>
      </item>
-     <item row="7" column="1">
-      <widget class="QLineEdit" name="lineEdit_2">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>250</width>
-         <height>25</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(217, 226, 255)</string>
-       </property>
-      </widget>
-     </item>
      <item row="3" column="2">
       <widget class="QPushButton" name="BtnRndSize">
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
         <string>Randomize</string>
        </property>
@@ -172,17 +159,49 @@ background-color: rgb(160, 210, 235);</string>
      </item>
      <item row="4" column="2">
       <widget class="QPushButton" name="BtnRndRelDensity">
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
         <string>Randomize</string>
        </property>
       </widget>
      </item>
-     <item row="7" column="2">
-      <widget class="QPushButton" name="BtnRndAttProb">
-       <property name="text">
-        <string>Randomize</string>
-       </property>
-      </widget>
+     <item row="7" column="1">
+      <layout class="QHBoxLayout" name="HBoxProb">
+       <item>
+        <widget class="QLineEdit" name="LineAttProb">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>250</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(217, 226, 255)</string>
+         </property>
+         <property name="inputMask">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="LblPrcnt3">
+         <property name="text">
+          <string>%</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item row="9" column="0">
       <widget class="QPushButton" name="BtnBack">
@@ -207,6 +226,19 @@ background-color: rgb(160, 210, 235);</string>
        </property>
        <property name="text">
         <string>&lt; Back</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="2">
+      <widget class="QPushButton" name="BtnRndAttProb">
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Randomize</string>
        </property>
       </widget>
      </item>
@@ -242,32 +274,13 @@ background-color: rgb(160, 210, 235);</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="1">
-      <widget class="QLineEdit" name="lineEdit">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>250</width>
-         <height>25</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(217, 226, 255)</string>
-       </property>
-       <property name="maxLength">
-        <number>3</number>
-       </property>
-      </widget>
-     </item>
      <item row="9" column="2">
       <layout class="QHBoxLayout" name="HBoxSaveButtons" stretch="0,0">
        <item>
         <widget class="QPushButton" name="BtnPreview">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -287,6 +300,9 @@ background-color: rgb(160, 210, 235);</string>
        </item>
        <item>
         <widget class="QPushButton" name="BtnSave">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -322,7 +338,7 @@ background-color: rgb(160, 210, 235);</string>
         </font>
        </property>
        <property name="text">
-        <string>Attributes:</string>
+        <string>Attribute:</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -334,6 +350,12 @@ background-color: rgb(160, 210, 235);</string>
      </item>
      <item row="5" column="2">
       <widget class="QPushButton" name="BtnRndInitDensity">
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
         <string>Randomize</string>
        </property>
@@ -371,28 +393,6 @@ background-color: rgb(160, 210, 235);</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QComboBox" name="CBoxSize">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>250</width>
-         <height>25</height>
-        </size>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(217, 226, 255)</string>
-       </property>
-      </widget>
-     </item>
      <item row="2" column="1">
       <widget class="QLineEdit" name="LineSysName">
        <property name="sizePolicy">
@@ -407,14 +407,20 @@ background-color: rgb(160, 210, 235);</string>
          <height>25</height>
         </size>
        </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
        <property name="autoFillBackground">
         <bool>false</bool>
        </property>
        <property name="styleSheet">
         <string notr="true">background-color: rgb(217, 226, 255)</string>
        </property>
+       <property name="maxLength">
+        <number>60</number>
+       </property>
        <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
        </property>
       </widget>
      </item>
@@ -470,7 +476,62 @@ background-color: rgb(160, 210, 235);</string>
        <property name="styleSheet">
         <string notr="true">background-color: rgb(217, 226, 255)</string>
        </property>
+       <property name="inputMask">
+        <string>A</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
       </widget>
+     </item>
+     <item row="5" column="1">
+      <layout class="QHBoxLayout" name="HBoxInitials">
+       <item>
+        <widget class="QLineEdit" name="LineInitDensity">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>250</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(217, 226, 255)</string>
+         </property>
+         <property name="inputMask">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="LblPrcnt2">
+         <property name="text">
+          <string>%</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="6" column="2">
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>180</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
      <item row="4" column="1">
       <layout class="QHBoxLayout" name="HBoxDensity">
@@ -494,8 +555,11 @@ background-color: rgb(160, 210, 235);</string>
          <property name="styleSheet">
           <string notr="true">background-color: rgb(217, 226, 255)</string>
          </property>
+         <property name="inputMask">
+          <string/>
+         </property>
          <property name="maxLength">
-          <number>3</number>
+          <number>32767</number>
          </property>
         </widget>
        </item>
@@ -508,7 +572,7 @@ background-color: rgb(160, 210, 235);</string>
        </item>
       </layout>
      </item>
-     <item row="8" column="1">
+     <item row="8" column="0">
       <spacer name="verticalSpacer">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
@@ -524,15 +588,112 @@ background-color: rgb(160, 210, 235);</string>
        </property>
       </spacer>
      </item>
+     <item row="8" column="1">
+      <layout class="QHBoxLayout" name="HBoxGenerate">
+       <item>
+        <widget class="QPushButton" name="BtnGenerate">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>200</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Generate</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="LineSysSize">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>250</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(217, 226, 255)</string>
+       </property>
+       <property name="inputMask">
+        <string/>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>
  </widget>
  <tabstops>
   <tabstop>LineSysName</tabstop>
-  <tabstop>CBoxSize</tabstop>
+  <tabstop>BtnRndSize</tabstop>
+  <tabstop>LineSysDensity</tabstop>
+  <tabstop>BtnRndRelDensity</tabstop>
+  <tabstop>LineInitDensity</tabstop>
+  <tabstop>BtnRndInitDensity</tabstop>
   <tabstop>LineSysAttributes</tabstop>
+  <tabstop>LineAttProb</tabstop>
+  <tabstop>BtnRndAttProb</tabstop>
+  <tabstop>BtnBack</tabstop>
+  <tabstop>BtnPreview</tabstop>
+  <tabstop>BtnSave</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>BtnGenerate</sender>
+   <signal>clicked()</signal>
+   <receiver>BtnPreview</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>422</x>
+     <y>481</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>540</x>
+     <y>477</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>BtnGenerate</sender>
+   <signal>clicked()</signal>
+   <receiver>BtnSave</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>396</x>
+     <y>477</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>615</x>
+     <y>480</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
