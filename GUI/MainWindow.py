@@ -19,24 +19,10 @@ class StartWidget(QWidget):
 
     def __init__(self, parent=None):
         super(StartWidget, self).__init__(parent)
-        # super(StartWidget, self).__init__()
 
         # load ui file:
         uic.loadUi("StartUI.ui", self)
 
-        # link button clicks to relevant methods:
-        # self.BtnGenerator.clicked.connect(self.generatorButtonClicked)
-        # self.BtnTester.clicked.connect(self.testerButtonClicked)
-        # self.BtnVisual.clicked.connect(self.vusializeButtonClicked)
-
-    def generatorButtonClicked(self):
-        print('generator button clicked')
-
-    def testerButtonClicked(self):
-        print('tester button clicked')
-
-    def vusializeButtonClicked(self):
-        print('visualize button clicked')
 
 
 class UI(QMainWindow):
