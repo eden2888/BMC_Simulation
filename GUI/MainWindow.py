@@ -1,42 +1,60 @@
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QPushButton, QVBoxLayout, QMenuBar, QStatusBar, QWidget, \
-    QStackedWidget, QSizePolicy
+    QStackedWidget, QSizePolicy, QFileDialog
 from PyQt5 import uic
 import sys
+
+from Utils.SystemFactory import SystemFactory
+from Utils.SystemUtils import SystemUtils
 
 
 class GeneratorWidget(QWidget):
     def __init__(self, parent=None):
         super(GeneratorWidget, self).__init__(parent)
+        self.generated_system = None
+        self.system_name = None
         # load ui file:
         uic.loadUi("GeneratorUI.ui", self)
 
-    def backToMain(self):
-        print('back button pressed')
+        # hide irrelevant button
+        self.BtnPreview.setVisible(False)
+        self.BtnSave.setVisible(False)
+
+        self.BtnGenerate.clicked.connect(self.generateBtnHandler)
+        self.BtnSave.clicked.connect(self.saveBtnHandler)
+
+    def generateBtnHandler(self):
+        # get input parameters
+        self.system_name = self.LineSysName.text()
+        system_size = int(self.LineSysSize.text())
+        system_relation_density = int(self.LineSysDensity.text())
+        initials_density = int(self.LineInitDensity.text())
+        attributes = self.LineSysAttributes.text()
+        attribute_prob = int(self.LineAttProb.text())
+
+        print('generated btn clicked !')
+        # input validation - later
+
+        # generate system using system factory
+        ks = SystemFactory.create_system(density=system_relation_density, size=system_size, attribute=attributes,
+                                         initials_density=initials_density, attribute_probability=attribute_prob)
+        # store generated system object
+        self.generated_system = ks
+
+    def saveBtnHandler(self):
+        fileName, _ = QFileDialog.getSaveFileName(self, "Save generated system", self.system_name, "json (*.json)")
+        if fileName:
+            SystemUtils.save_system(self.generated_system, fileName)
+            print('Stored successfully')
 
 
 class StartWidget(QWidget):
 
     def __init__(self, parent=None):
         super(StartWidget, self).__init__(parent)
-        # super(StartWidget, self).__init__()
 
         # load ui file:
         uic.loadUi("StartUI.ui", self)
-
-        # link button clicks to relevant methods:
-        # self.BtnGenerator.clicked.connect(self.generatorButtonClicked)
-        # self.BtnTester.clicked.connect(self.testerButtonClicked)
-        # self.BtnVisual.clicked.connect(self.vusializeButtonClicked)
-
-    def generatorButtonClicked(self):
-        print('generator button clicked')
-
-    def testerButtonClicked(self):
-        print('tester button clicked')
-
-    def vusializeButtonClicked(self):
-        print('visualize button clicked')
 
 
 class UI(QMainWindow):
