@@ -11,9 +11,6 @@ class GeneratorWidget(QWidget):
         # load ui file:
         uic.loadUi("GeneratorUI.ui", self)
 
-    def backToMain(self):
-        print('back button pressed')
-
 
 class StartWidget(QWidget):
 
@@ -22,7 +19,6 @@ class StartWidget(QWidget):
 
         # load ui file:
         uic.loadUi("StartUI.ui", self)
-
 
 
 class UI(QMainWindow):
