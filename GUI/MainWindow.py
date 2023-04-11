@@ -48,6 +48,15 @@ class GeneratorWidget(QWidget):
             print('Stored successfully')
 
 
+class VisualizerWidget(QWidget):
+
+    def __init__(self, parent=None):
+        super(VisualizerWidget, self).__init__(parent)
+
+        # load ui file:
+        uic.loadUi("VisualizerUI.ui", self)
+
+
 class StartWidget(QWidget):
 
     def __init__(self, parent=None):
@@ -65,19 +74,25 @@ class UI(QMainWindow):
         # set up secondary widgets
         self.start_screen = StartWidget(self)
         self.generator_screen = GeneratorWidget(self)
+        self.visualizer_screen = VisualizerWidget(self)
         # add widgets to stack widget:
         self.central_widget.addWidget(self.start_screen)
         self.central_widget.addWidget(self.generator_screen)
+        self.central_widget.addWidget(self.visualizer_screen)
         self.central_widget.setCurrentWidget(self.start_screen)
         # fix central widget visuals:
         self.setStyleSheet("background-color: rgb(160, 210, 235)")
 
         # setup signal connections:
         self.start_screen.BtnGenerator.clicked.connect(self.setGeneratorScreen)
+        self.start_screen.BtnVisual.clicked.connect(self.setVisualizerScreen)
         self.generator_screen.BtnBack.clicked.connect(self.setStartScreen)
 
     def setGeneratorScreen(self):
         self.central_widget.setCurrentWidget(self.generator_screen)
+
+    def setVisualizerScreen(self):
+        self.central_widget.setCurrentWidget(self.visualizer_screen)
 
     def setStartScreen(self):
         self.central_widget.setCurrentWidget(self.start_screen)
