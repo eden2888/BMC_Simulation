@@ -1,4 +1,5 @@
 # import the modules
+import os
 import networkx as nx
 import matplotlib.pyplot as plt
 from KripkeStructureFramework.KripkeStructure import KripkeStructure
@@ -36,15 +37,34 @@ def create_test_structures():
     return m1, m2
 
 
-sys1, sys2 = create_test_structures()
-sys3 = SystemFactory.create_system(size = 60, density=0)
-colors_lst = SystemUtils.get_node_color_list(sys3)
-sys1_relations = SystemUtils.get_relations_list(sys3)
-node_names = SystemUtils.get_node_names_dictionary(sys3)
-# Create the graph
-G = nx.MultiDiGraph()
-G.add_edges_from(sys1_relations)
-# Visualize
-nx.draw(G, with_labels=True, labels=node_names, node_size=800, node_color=colors_lst, pos=nx.spiral_layout(G))
-plt.show()
-# #  pos=nx.kamada_kawai_layout(G)
+@staticmethod
+def preview_system(system):
+    colors_lst = SystemUtils.get_node_color_list(system)
+    sys1_relations = SystemUtils.get_relations_list(system)
+    node_names = SystemUtils.get_node_names_dictionary(system)
+    # Create the graph
+    G = nx.MultiDiGraph()
+    G.add_edges_from(sys1_relations)
+    # Visualize
+    nx.draw(G, with_labels=True, labels=node_names, node_size=800, node_color=colors_lst, pos=nx.kamada_kawai_layout(G))
+    #return plt#.show()
+
+@staticmethod
+def preview_system_test():
+    s1, s2 = create_test_structures()
+    system = s1
+    colors_lst = SystemUtils.get_node_color_list(system)
+    sys1_relations = SystemUtils.get_relations_list(system)
+    node_names = SystemUtils.get_node_names_dictionary(system)
+    # Create the graph
+    G = nx.MultiDiGraph()
+    G.add_edges_from(sys1_relations)
+    # Visualize
+    nx.draw(G, with_labels=True, labels=node_names, node_size=800, node_color=colors_lst, pos=nx.kamada_kawai_layout(G))
+    #return G, node_names, colors_lst, plt
+    return G, node_names, colors_lst, plt
+
+
+#s1,s2 = create_test_structures()
+#temp = preview_system(s1)
+#temp.show()
