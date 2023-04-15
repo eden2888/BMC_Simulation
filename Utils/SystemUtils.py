@@ -1,5 +1,4 @@
 import math
-
 import jsonpickle
 from datetime import date
 from KripkeStructureFramework.KripkeStructure import KripkeStructure
@@ -7,8 +6,6 @@ from Utils import StateRef
 from Utils.StateRef import StateRef
 import z3
 from z3 import *
-
-from Utils.T_Matrix import T_Matrix
 
 
 class SystemUtils:
@@ -122,3 +119,32 @@ class SystemUtils:
         decoded = jsonpickle.decode(file_data)
         loaded_system = KripkeStructure(decoded)
         return loaded_system
+
+    @staticmethod
+    def get_relations_list(system):
+        relations_list = []
+        for node in system.get_nodes():
+            for relation in node.relations:
+                relations_list.append((node.index, relation))
+        return relations_list
+
+    @staticmethod
+    def get_node_names_dictionary(system):
+        names_dict = {}
+        for node in system.get_nodes():
+            if "" == node.assignment:
+                names_dict[node.index] = str(node.index)
+            else:
+                names_dict[node.index] = str(node.index) + ', ' + node.assignment
+        return names_dict
+
+
+    @staticmethod
+    def get_node_color_list(system):
+        colors_lst = []
+        for node in system.get_nodes():
+            if node.isInitial:
+                colors_lst.append('#0080ff')
+            else:
+                colors_lst.append('#CCCCFF')
+        return colors_lst
