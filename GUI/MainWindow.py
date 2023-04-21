@@ -121,6 +121,7 @@ class VisualizerWidget(QWidget):
         self.systemComboBox.addItem('M2')
 
     def populateComboBox(self):
+
         pass
 
 
