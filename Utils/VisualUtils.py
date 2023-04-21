@@ -61,9 +61,24 @@ def preview_system_test():
     G.add_edges_from(sys1_relations)
     # Visualize
     nx.draw(G, with_labels=True, labels=node_names, node_size=800, node_color=colors_lst, pos=nx.kamada_kawai_layout(G))
-    #return G, node_names, colors_lst, plt
+    return G, node_names, colors_lst, plt
+@staticmethod
+def preview_system(system):
+    colors_lst = SystemUtils.get_node_color_list(system)
+    sys1_relations = SystemUtils.get_relations_list(system)
+    node_names = SystemUtils.get_node_names_dictionary(system)
+    # Create the graph
+    G = nx.MultiDiGraph()
+    G.add_edges_from(sys1_relations)
+    # Visualize
+    nx.draw(G, with_labels=True, labels=node_names, node_size=800, node_color=colors_lst, pos=nx.kamada_kawai_layout(G))
     return G, node_names, colors_lst, plt
 
+@staticmethod
+def store_test_systems():
+    s1, s2 = create_test_structures()
+    SystemUtils.save_system(s1, 'D:\Test\s1.json')
+    SystemUtils.save_system(s2, 'D:\Test\s2.json')
 
 #s1,s2 = create_test_structures()
 #temp = preview_system(s1)
