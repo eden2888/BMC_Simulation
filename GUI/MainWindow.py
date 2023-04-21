@@ -1,23 +1,21 @@
 import random
 import matplotlib.pyplot as plt
 import networkx as nx
+from PyQt5.QtGui import QFont
 
 from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QPushButton, QVBoxLayout, QMenuBar, QStatusBar, QWidget, \
-    QStackedWidget, QSizePolicy, QFileDialog, QGridLayout, QGroupBox, QDesktopWidget
+    QStackedWidget, QSizePolicy, QFileDialog, QGridLayout, QGroupBox, QDesktopWidget, QHBoxLayout, QMessageBox
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from PyQt5 import uic
-
+from PyQt5.QtCore import Qt
 import matplotlib
 from PyQt5.uic.properties import QtWidgets, QtCore
-
-from Utils.VisualUtils import preview_system_test
-
+from Utils.VisualUtils import preview_system_test, preview_system
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
 import sys
 from Utils.SystemFactory import SystemFactory
 from Utils.SystemUtils import SystemUtils
-
 
 
 class GeneratorWidget(QWidget):
@@ -60,69 +58,91 @@ class GeneratorWidget(QWidget):
             print('Stored successfully')
 
 
-class MplCanvas(FigureCanvasQTAgg):
-
-    def __init__(self, parent=None, width=5, height=4, dpi=100):
-        fig = Figure(figsize=(width, height), dpi=dpi)
-        self.axes = fig.add_subplot(111)
-        super(MplCanvas, self).__init__(fig)
-
-class TesterWidget(QWidget):
+class VisualizerWidget(QWidget):
 
     def __init__(self, parent=None):
-        super(TesterWidget, self).__init__(parent)
+        super(VisualizerWidget, self).__init__(parent)
         # load ui file:
-        uic.loadUi("TesterUI.ui", self)
-        self.NumButtons = ['Preview']
-        self.initUI()
+        self.verticalGroupBox = None
+        self.canvas = None
+        self.toolbar = None
+        self.figure = None
+        uic.loadUi("VisualizerUI.ui", self)
+        # Buttons setup:
+        self.BtnBack = QPushButton('< Back')
+        self.BtnBack.setFixedSize(120, 30)
+        font = QFont('Arial', 12)
+        font.setBold(True)
+        self.BtnBack.setFont(font)
+        self.BtnSelect = QPushButton('Select System')
+        self.BtnSelect.setFont(font)
 
+        # init ui
+        self.initUI()
 
     def initUI(self):
         grid = QGridLayout()
+        grid.setSpacing(20)
         self.setLayout(grid)
-        self.figure = plt.figure()
+        self.figure = plt.figure(figsize=([16, 16]))
         self.canvas = FigureCanvas(self.figure)
         self.toolbar = NavigationToolbar(self.canvas, self)
-
         self.verticalGroupBox = QGroupBox()
+        layout = QHBoxLayout()
 
-        layout = QVBoxLayout()
-        button = QPushButton('Preview')
-        button.setObjectName('Preview')
-        layout.addWidget(button)
+        self.BtnSelect.setObjectName('BtnSelectSystem')
         layout.addWidget(self.toolbar)
+        layout.addWidget(self.BtnSelect)
         layout.setSpacing(10)
         self.verticalGroupBox.setLayout(layout)
-        button.clicked.connect(self.preview_system)
+        self.verticalGroupBox.setMaximumHeight(100)
+        self.BtnSelect.clicked.connect(self.select_file)
 
-        buttonLayout = QVBoxLayout()
-        buttonLayout.addWidget(self.verticalGroupBox)
-        grid.addWidget(self.canvas, 0, 1, 9, 9)
-        grid.addLayout(buttonLayout, 0, 0)
+        toolbarLayout = QVBoxLayout()
+        toolbarLayout.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
+        toolbarLayout.addWidget(self.verticalGroupBox)
+        grid.addLayout(toolbarLayout, 0, 0)
+        grid.addWidget(self.canvas, 1, 0,  Qt.AlignHCenter)
+        grid.setRowStretch(1, 2)
+
+        grid.addWidget(self.BtnBack, 3, 0)
 
         self.show()
 
-    def preview_system(self):
-        G, node_names, colors_lst, plt1 = preview_system_test()
+    def select_file(self):
+        dialog = QFileDialog(self)
+        dialog.setDirectory('C:/')
+        dialog.setFileMode(QFileDialog.FileMode.ExistingFiles)
+        dialog.setNameFilter("Json Files (*.json)")
+        dialog.setViewMode(QFileDialog.ViewMode.List)
+        if dialog.exec():
+            filenames = dialog.selectedFiles()
+            path = filenames[0]
+            system = SystemUtils.load_system(path)
+            if system is None:
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Critical)
+                msg.setText('Cannot open the selected file, please try again.')
+                msg.setWindowTitle("Error Opening json file")
+                msg.exec_()
+            else:
+                self.preview_system(system)
+
+    def preview_system(self, system):
+        G, node_names, colors_lst, plt1 = preview_system(system)
         self.figure.clf()
         nx.draw(G, with_labels=True, labels=node_names, node_size=800, node_color=colors_lst,
                 pos=nx.kamada_kawai_layout(G))
         self.canvas.draw_idle()
 
 
-class VisualizerWidget(QWidget):
+class TesterWidget(QWidget):
 
     def __init__(self, parent=None):
-        super(VisualizerWidget, self).__init__(parent)
+        super(TesterWidget, self).__init__(parent)
 
         # load ui file:
-        uic.loadUi("VisualizerUI.ui", self)
-        self.systemComboBox.addItem('M1')
-        self.systemComboBox.addItem('M2')
-
-    def populateComboBox(self):
-
-        pass
+        uic.loadUi("TesterUI.ui", self)
 
 
 class StartWidget(QWidget):
@@ -137,6 +157,7 @@ class StartWidget(QWidget):
 class UI(QMainWindow):
     def __init__(self, parent=None):
         super(UI, self).__init__()
+        self.setWindowTitle('BMC Via Simulation')
         self.central_widget = QStackedWidget()
         self.setCentralWidget(self.central_widget)
         # set up secondary widgets
