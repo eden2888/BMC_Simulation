@@ -114,11 +114,14 @@ class SystemUtils:
 
     @staticmethod
     def load_system(path):
-        system_json = open(path)
-        file_data = system_json.read()
-        decoded = jsonpickle.decode(file_data)
-        loaded_system = KripkeStructure(decoded)
-        return loaded_system
+        try:
+            system_json = open(path)
+            file_data = system_json.read()
+            decoded = jsonpickle.decode(file_data)
+            loaded_system = KripkeStructure(decoded)
+            return loaded_system
+        except:
+            return None
 
     @staticmethod
     def get_relations_list(system):
@@ -137,7 +140,6 @@ class SystemUtils:
             else:
                 names_dict[node.index] = str(node.index) + ', ' + node.assignment
         return names_dict
-
 
     @staticmethod
     def get_node_color_list(system):
