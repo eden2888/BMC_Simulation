@@ -11,6 +11,9 @@ from PyQt5 import uic
 from PyQt5.QtCore import Qt, QRegularExpression
 import matplotlib
 from PyQt5.uic.properties import QtWidgets, QtCore
+from z3 import unsat
+
+from Utils import VisualUtils
 from Utils.VisualUtils import preview_system_test, preview_system
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
@@ -191,6 +194,38 @@ class TesterWidget(QWidget):
 
         # load ui file:
         uic.loadUi("TesterUI.ui", self)
+        self.LabelResults.hide()
+        self.populateComboBox()
+        self.BtnRun.clicked.connect(self.runTester)
+        self.BtnPrev1.clicked.connect(lambda: self.previewSystem(1))
+        self.BtnPrev2.clicked.connect(lambda: self.previewSystem(2))
+        self.LineSubSysSize.setText('1')
+        self.LineTimeout.setText('60')
+    def runTester(self):
+        sys1 = SystemUtils.load_system('c:\BMC_Systems\{}.json'.format(self.Sys1ComboBox.currentText()))
+        sys2 = SystemUtils.load_system('c:\BMC_Systems\{}.json'.format(self.Sys2ComboBox.currentText()))
+        checker = SystemUtils.check_simulation(sys1, sys2)
+        res_text = str(checker.check())
+        if checker.check() != unsat:
+            res_text = res_text + '\n' + str(checker.model())
+        self.LabelResults.setText(res_text)
+        self.LabelResults.show()
+
+    def populateComboBox(self):
+        systems_lst = SystemUtils.get_all_systems_from_path()
+        remove_ends = [lambda x: x[:-5] for x in systems_lst]
+        for system in systems_lst:
+            self.Sys1ComboBox.addItem(system[:-5])
+            self.Sys2ComboBox.addItem(system[:-5])
+
+    def previewSystem(self,sys_num):
+        if sys_num == 1:
+            sys_name = self.Sys1ComboBox.currentText()
+        else:
+            sys_name = self.Sys2ComboBox.currentText()
+        print('c:\BMC_Systems\{}.json'.format(sys_name))
+        system = SystemUtils.load_system('c:\BMC_Systems\{}.json'.format(sys_name))
+        VisualUtils.preview_system_new_window(system)
 
 
 class StartWidget(QWidget):
@@ -228,6 +263,7 @@ class UI(QMainWindow):
         self.start_screen.BtnTester.clicked.connect(self.setTesterScreen)
         self.generator_screen.BtnBack.clicked.connect(self.setStartScreen)
         self.visualizer_screen.BtnBack.clicked.connect(self.setStartScreen)
+        self.tester_screen.BtnBack.clicked.connect(self.setStartScreen)
 
     def setGeneratorScreen(self):
         self.central_widget.setCurrentWidget(self.generator_screen)
