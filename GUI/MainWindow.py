@@ -34,7 +34,6 @@ class GeneratorWidget(QWidget):
         self.BtnGenerate.clicked.connect(self.generateBtnHandler)
         self.BtnSave.clicked.connect(self.saveBtnHandler)
 
-
         # set input validators:
         self.setInputValidators()
 
@@ -46,6 +45,19 @@ class GeneratorWidget(QWidget):
         self.LineAttProb.textChanged.connect(lambda: self.checkInputValidity(self.LineAttProb))
         self.LineSysAttributes.textChanged.connect(lambda: self.checkInputValidity(self.LineSysAttributes))
 
+        # assign randomize buttons to logic:
+        self.BtnRndSize.clicked.connect(lambda: self.randomizeParameterValue(self.LineSysSize, 0, 1000))
+        self.BtnRndRelDensity.clicked.connect(lambda: self.randomizeParameterValue(self.LineSysDensity, 0, 100))
+        self.BtnRndInitDensity.clicked.connect(lambda: self.randomizeParameterValue(self.LineInitDensity, 0, 100))
+        self.BtnRndAttProb.clicked.connect(lambda: self.randomizeParameterValue(self.LineAttProb, 0, 100))
+
+    def checkInputValidity(self, lineEdit):
+        if lineEdit.hasAcceptableInput() or lineEdit.text() == '':
+            lineEdit.setStyleSheet('background-color: rgb(217, 226, 255)')
+            self.BtnGenerate.setEnabled(True)
+        else:
+            lineEdit.setStyleSheet('background-color: red')
+            self.BtnGenerate.setEnabled(False)
 
     def setInputValidators(self):
         # Validators setup:
@@ -69,8 +81,6 @@ class GeneratorWidget(QWidget):
         self.LineSysAttributes.setPlaceholderText('List of attributes: p,q,...')
         self.LineSysAttributes.setValidator(attributeValidator)
 
-
-
     def generateBtnHandler(self):
         # get input parameters
         self.system_name = self.LineSysName.text()
@@ -80,25 +90,20 @@ class GeneratorWidget(QWidget):
         attributes = self.LineSysAttributes.text()
         attribute_prob = int(self.LineAttProb.text())
 
-        print('generated btn clicked !')
-
-
         # generate system using system factory
         ks = SystemFactory.create_system(density=system_relation_density, size=system_size, attribute=attributes,
                                          initials_density=initials_density, attribute_probability=attribute_prob)
         # store generated system object
         self.generated_system = ks
+
     def saveBtnHandler(self):
         fileName, _ = QFileDialog.getSaveFileName(self, "Save generated system", self.system_name, "json (*.json)")
         if fileName:
             SystemUtils.save_system(self.generated_system, fileName)
             print('Stored successfully')
 
-    def checkInputValidity(self, lineEdit):
-        if lineEdit.hasAcceptableInput() or lineEdit.text() == '':
-            lineEdit.setStyleSheet('background-color: rgb(217, 226, 255)')
-        else:
-            lineEdit.setStyleSheet('background-color: red')
+    def randomizeParameterValue(self, lineEdit, minVal, maxVal):
+        lineEdit.setText(str(random.randint(minVal, maxVal)))
 
 
 class VisualizerWidget(QWidget):
@@ -145,7 +150,7 @@ class VisualizerWidget(QWidget):
         toolbarLayout.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
         toolbarLayout.addWidget(self.verticalGroupBox)
         grid.addLayout(toolbarLayout, 0, 0)
-        grid.addWidget(self.canvas, 1, 0,  Qt.AlignHCenter)
+        grid.addWidget(self.canvas, 1, 0, Qt.AlignHCenter)
         grid.setRowStretch(1, 2)
 
         grid.addWidget(self.BtnBack, 3, 0)
@@ -235,6 +240,7 @@ class UI(QMainWindow):
 
     def setTesterScreen(self):
         self.central_widget.setCurrentWidget(self.tester_screen)
+
 
 # Initializing the app
 app = QApplication(sys.argv)

@@ -688,8 +688,8 @@ background-color: rgb(160, 210, 235);</string>
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>422</x>
-     <y>481</y>
+     <x>454</x>
+     <y>451</y>
     </hint>
     <hint type="destinationlabel">
      <x>540</x>
@@ -704,8 +704,8 @@ background-color: rgb(160, 210, 235);</string>
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>396</x>
-     <y>477</y>
+     <x>454</x>
+     <y>451</y>
     </hint>
     <hint type="destinationlabel">
      <x>615</x>
