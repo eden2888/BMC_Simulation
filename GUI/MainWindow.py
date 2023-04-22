@@ -1,13 +1,14 @@
 import random
 import matplotlib.pyplot as plt
 import networkx as nx
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QFont, QValidator, QRegularExpressionValidator, QIntValidator
 
 from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QPushButton, QVBoxLayout, QMenuBar, QStatusBar, QWidget, \
-    QStackedWidget, QSizePolicy, QFileDialog, QGridLayout, QGroupBox, QDesktopWidget, QHBoxLayout, QMessageBox
+    QStackedWidget, QSizePolicy, QFileDialog, QGridLayout, QGroupBox, QDesktopWidget, QHBoxLayout, QMessageBox, \
+    QLineEdit
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from PyQt5 import uic
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QRegularExpression
 import matplotlib
 from PyQt5.uic.properties import QtWidgets, QtCore
 from Utils.VisualUtils import preview_system_test, preview_system
@@ -33,6 +34,43 @@ class GeneratorWidget(QWidget):
         self.BtnGenerate.clicked.connect(self.generateBtnHandler)
         self.BtnSave.clicked.connect(self.saveBtnHandler)
 
+
+        # set input validators:
+        self.setInputValidators()
+
+        # connect input boxes to validation handler:
+        self.LineSysName.textChanged.connect(lambda: self.checkInputValidity(self.LineSysName))
+        self.LineSysSize.textChanged.connect(lambda: self.checkInputValidity(self.LineSysSize))
+        self.LineSysDensity.textChanged.connect(lambda: self.checkInputValidity(self.LineSysDensity))
+        self.LineInitDensity.textChanged.connect(lambda: self.checkInputValidity(self.LineInitDensity))
+        self.LineAttProb.textChanged.connect(lambda: self.checkInputValidity(self.LineAttProb))
+        self.LineSysAttributes.textChanged.connect(lambda: self.checkInputValidity(self.LineSysAttributes))
+
+
+    def setInputValidators(self):
+        # Validators setup:
+        fileNameRegex = QRegularExpression('[\w]+$')
+        attributeRegex = QRegularExpression('\w')
+        nameValidator = QRegularExpressionValidator(fileNameRegex)
+        attributeValidator = QRegularExpressionValidator(attributeRegex)
+        intSizeValidator = QIntValidator(1, 1000)
+        percentValidator = QIntValidator(0, 100)
+        # Assign to line edits
+        self.LineSysName.setPlaceholderText('System Name')
+        self.LineSysName.setValidator(nameValidator)
+        self.LineSysSize.setPlaceholderText('Number of nodes in the system (1-1000)')
+        self.LineSysSize.setValidator(intSizeValidator)
+        self.LineSysDensity.setPlaceholderText('Density in percents (0 - 100)')
+        self.LineSysDensity.setValidator(percentValidator)
+        self.LineInitDensity.setPlaceholderText('Density in percents (0 - 100)')
+        self.LineInitDensity.setValidator(percentValidator)
+        self.LineAttProb.setPlaceholderText('Probability in percents (0 - 100)')
+        self.LineAttProb.setValidator(percentValidator)
+        self.LineSysAttributes.setPlaceholderText('List of attributes: p,q,...')
+        self.LineSysAttributes.setValidator(attributeValidator)
+
+
+
     def generateBtnHandler(self):
         # get input parameters
         self.system_name = self.LineSysName.text()
@@ -43,19 +81,24 @@ class GeneratorWidget(QWidget):
         attribute_prob = int(self.LineAttProb.text())
 
         print('generated btn clicked !')
-        # input validation - later
+
 
         # generate system using system factory
         ks = SystemFactory.create_system(density=system_relation_density, size=system_size, attribute=attributes,
                                          initials_density=initials_density, attribute_probability=attribute_prob)
         # store generated system object
         self.generated_system = ks
-
     def saveBtnHandler(self):
         fileName, _ = QFileDialog.getSaveFileName(self, "Save generated system", self.system_name, "json (*.json)")
         if fileName:
             SystemUtils.save_system(self.generated_system, fileName)
             print('Stored successfully')
+
+    def checkInputValidity(self, lineEdit):
+        if lineEdit.hasAcceptableInput() or lineEdit.text() == '':
+            lineEdit.setStyleSheet('background-color: rgb(217, 226, 255)')
+        else:
+            lineEdit.setStyleSheet('background-color: red')
 
 
 class VisualizerWidget(QWidget):

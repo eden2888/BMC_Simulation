@@ -192,6 +192,9 @@ background-color: rgb(160, 210, 235);</string>
          <property name="inputMask">
           <string/>
          </property>
+         <property name="maxLength">
+          <number>3</number>
+         </property>
         </widget>
        </item>
        <item>
@@ -416,6 +419,9 @@ background-color: rgb(160, 210, 235);</string>
        <property name="styleSheet">
         <string notr="true">background-color: rgb(217, 226, 255)</string>
        </property>
+       <property name="locale">
+        <locale language="English" country="Israel"/>
+       </property>
        <property name="maxLength">
         <number>60</number>
        </property>
@@ -477,10 +483,13 @@ background-color: rgb(160, 210, 235);</string>
         <string notr="true">background-color: rgb(217, 226, 255)</string>
        </property>
        <property name="inputMask">
-        <string>A</string>
+        <string/>
        </property>
        <property name="text">
         <string/>
+       </property>
+       <property name="maxLength">
+        <number>3</number>
        </property>
       </widget>
      </item>
@@ -505,6 +514,9 @@ background-color: rgb(160, 210, 235);</string>
          </property>
          <property name="inputMask">
           <string/>
+         </property>
+         <property name="maxLength">
+          <number>3</number>
          </property>
         </widget>
        </item>
@@ -559,7 +571,7 @@ background-color: rgb(160, 210, 235);</string>
           <string/>
          </property>
          <property name="maxLength">
-          <number>32767</number>
+          <number>3</number>
          </property>
         </widget>
        </item>
@@ -632,6 +644,9 @@ background-color: rgb(160, 210, 235);</string>
          <height>25</height>
         </size>
        </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
        <property name="styleSheet">
         <string notr="true">background-color: rgb(217, 226, 255)</string>
        </property>
@@ -640,6 +655,9 @@ background-color: rgb(160, 210, 235);</string>
        </property>
        <property name="text">
         <string/>
+       </property>
+       <property name="maxLength">
+        <number>4</number>
        </property>
       </widget>
      </item>
