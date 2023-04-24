@@ -223,9 +223,9 @@ class TesterWidget(QWidget):
             sys_name = self.Sys1ComboBox.currentText()
         else:
             sys_name = self.Sys2ComboBox.currentText()
-        print('c:\BMC_Systems\{}.json'.format(sys_name))
         system = SystemUtils.load_system('c:\BMC_Systems\{}.json'.format(sys_name))
         VisualUtils.preview_system_new_window(system)
+
 
 
 class StartWidget(QWidget):

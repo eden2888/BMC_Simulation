@@ -49,6 +49,7 @@ def preview_system_new_window(system):
     nx.draw(G, with_labels=True, labels=node_names, node_size=800, node_color=colors_lst, pos=nx.kamada_kawai_layout(G))
     plt.show()
 
+
 @staticmethod
 def preview_system_test():
     s1, s2 = create_test_structures()
