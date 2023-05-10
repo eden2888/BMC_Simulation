@@ -160,9 +160,6 @@ class SystemUtils:
     @staticmethod
     def check_simulation(sys1, sys2):
         T = T_Matrix(sys1.get_size(), sys2.get_size())
-        i_1 = SystemUtils.get_i_formula(sys1, 'x')
-        i_2 = SystemUtils.get_i_formula(sys2, 'y')
-        c = i_1.children()
         # create T[m,n]:
         alpha1 = SystemUtils.create_alpha_1(sys1, sys2, T)
         alpha2 = SystemUtils.create_alpha_2(sys1, sys2, T)
