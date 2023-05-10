@@ -2,7 +2,7 @@ import math
 import jsonpickle
 from datetime import date
 from KripkeStructureFramework.KripkeStructure import KripkeStructure
-from Utils import StateRef
+from Utils import StateRef, VisualUtils
 from Utils.StateRef import StateRef
 import z3
 from z3 import *
@@ -127,6 +127,10 @@ class SystemUtils:
 
     @staticmethod
     def get_all_systems_from_path():
+        # if no systems/path, create defaults:
+        if not os.path.exists("c:\BMC_Systems"):
+            os.mkdir("c:\BMC_Systems")
+        VisualUtils.store_test_systems()
         return [pos_json for pos_json in os.listdir('c:\BMC_Systems') if pos_json.endswith('.json')]
 
     @staticmethod

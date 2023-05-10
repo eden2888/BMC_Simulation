@@ -162,7 +162,7 @@ class VisualizerWidget(QWidget):
 
     def select_file(self):
         dialog = QFileDialog(self)
-        dialog.setDirectory('C:/')
+        dialog.setDirectory('C:\BMC_Systems')
         dialog.setFileMode(QFileDialog.FileMode.ExistingFiles)
         dialog.setNameFilter("Json Files (*.json)")
         dialog.setViewMode(QFileDialog.ViewMode.List)
