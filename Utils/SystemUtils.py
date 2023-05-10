@@ -7,6 +7,8 @@ from Utils.StateRef import StateRef
 import z3
 from z3 import *
 
+from Utils.T_Matrix import T_Matrix
+
 
 class SystemUtils:
     """
@@ -124,6 +126,10 @@ class SystemUtils:
             return None
 
     @staticmethod
+    def get_all_systems_from_path():
+        return [pos_json for pos_json in os.listdir('c:\BMC_Systems') if pos_json.endswith('.json')]
+
+    @staticmethod
     def get_relations_list(system):
         relations_list = []
         for node in system.get_nodes():
@@ -150,4 +156,21 @@ class SystemUtils:
             else:
                 colors_lst.append('#CCCCFF')
         return colors_lst
+
+    @staticmethod
+    def check_simulation(sys1, sys2):
+        T = T_Matrix(sys1.get_size(), sys2.get_size())
+        i_1 = SystemUtils.get_i_formula(sys1, 'x')
+        i_2 = SystemUtils.get_i_formula(sys2, 'y')
+        c = i_1.children()
+        # create T[m,n]:
+        alpha1 = SystemUtils.create_alpha_1(sys1, sys2, T)
+        alpha2 = SystemUtils.create_alpha_2(sys1, sys2, T)
+        alpha3 = SystemUtils.create_alpha_3(sys1, sys2, T)
+        s = Solver()
+        s.add(alpha1)
+        s.add(alpha2)
+        s.add(alpha3)
+        return s
+
 
