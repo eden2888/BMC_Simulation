@@ -1,10 +1,12 @@
-from random import random
+import random
 from PyQt5 import uic
 from PyQt5.QtCore import QRegularExpression
 from PyQt5.QtGui import QRegularExpressionValidator, QIntValidator
 from PyQt5.QtWidgets import QWidget, QFileDialog
-import Utils.SystemFactory
-import Utils.SystemUtils
+
+from Utils import VisualUtils
+from Utils.SystemFactory import SystemFactory
+from Utils.SystemUtils import SystemUtils
 
 
 class GeneratorWidget(QWidget):
@@ -21,7 +23,7 @@ class GeneratorWidget(QWidget):
 
         self.BtnGenerate.clicked.connect(self.generateBtnHandler)
         self.BtnSave.clicked.connect(self.saveBtnHandler)
-
+        self.BtnPreview.clicked.connect(self.previewBtnHandler)
         # set input validators:
         self.setInputValidators()
 
@@ -71,24 +73,31 @@ class GeneratorWidget(QWidget):
 
     def generateBtnHandler(self):
         # get input parameters
+        print('a')
         self.system_name = self.LineSysName.text()
         system_size = int(self.LineSysSize.text())
         system_relation_density = int(self.LineSysDensity.text())
         initials_density = int(self.LineInitDensity.text())
         attributes = self.LineSysAttributes.text()
         attribute_prob = int(self.LineAttProb.text())
-
         # generate system using system factory
-        ks = Utils.SystemFactory.create_system(density=system_relation_density, size=system_size, attribute=attributes,
+
+        print('b')
+        ks = SystemFactory.create_system(density=system_relation_density, size=system_size, attribute=attributes,
                                                initials_density=initials_density, attribute_probability=attribute_prob)
         # store generated system object
+
+        print('c')
         self.generated_system = ks
 
     def saveBtnHandler(self):
         fileName, _ = QFileDialog.getSaveFileName(self, "Save generated system", self.system_name, "json (*.json)")
         if fileName:
-            Utils.SystemUtils.save_system(self.generated_system, fileName)
+            SystemUtils.save_system(self.generated_system, fileName)
             print('Stored successfully')
 
     def randomizeParameterValue(self, lineEdit, minVal, maxVal):
         lineEdit.setText(str(random.randint(minVal, maxVal)))
+
+    def previewBtnHandler(self):
+        VisualUtils.preview_system_new_window(self.generated_system)

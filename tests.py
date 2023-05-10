@@ -5,7 +5,6 @@ from KripkeStructureFramework.Node import Node
 from Utils.SystemUtils import SystemUtils
 from Utils.SystemFactory import SystemFactory
 from Utils.T_Matrix import T_Matrix
-import PySide6.QtCore
 
 
 def z3_tests():
