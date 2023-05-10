@@ -1,10 +1,6 @@
-import math
 import jsonpickle
-from datetime import date
 from KripkeStructureFramework.KripkeStructure import KripkeStructure
-from Utils import StateRef, VisualUtils
-from Utils.StateRef import StateRef
-import z3
+from Utils import VisualUtils
 from z3 import *
 
 from Utils.T_Matrix import T_Matrix
