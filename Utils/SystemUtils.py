@@ -150,3 +150,4 @@ class SystemUtils:
             else:
                 colors_lst.append('#CCCCFF')
         return colors_lst
+
