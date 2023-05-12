@@ -73,7 +73,6 @@ class GeneratorWidget(QWidget):
 
     def generateBtnHandler(self):
         # get input parameters
-        print('a')
         self.system_name = self.LineSysName.text()
         system_size = int(self.LineSysSize.text())
         system_relation_density = int(self.LineSysDensity.text())
@@ -82,12 +81,10 @@ class GeneratorWidget(QWidget):
         attribute_prob = int(self.LineAttProb.text())
         # generate system using system factory
 
-        print('b')
         ks = SystemFactory.create_system(density=system_relation_density, size=system_size, attribute=attributes,
                                                initials_density=initials_density, attribute_probability=attribute_prob)
         # store generated system object
 
-        print('c')
         self.generated_system = ks
 
     def saveBtnHandler(self):

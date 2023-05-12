@@ -14,5 +14,6 @@ class KripkeStructure:
     def get_nodes(self):
         return self.__nodes
 
+
     def get_size(self):
         return len(self.__nodes)
