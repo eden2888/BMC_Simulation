@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>691</width>
+    <width>727</width>
     <height>501</height>
    </rect>
   </property>
@@ -36,7 +36,7 @@ background-color: rgb(160, 210, 235);</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="3" column="0">
-    <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0,0,0,0,0,0" columnstretch="0,0,0">
+    <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0,0,0,0,0" columnstretch="0,0,0">
      <property name="sizeConstraint">
       <enum>QLayout::SetDefaultConstraint</enum>
      </property>
@@ -73,6 +73,7 @@ background-color: rgb(160, 210, 235);</string>
        <property name="font">
         <font>
          <pointsize>11</pointsize>
+         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -98,6 +99,7 @@ background-color: rgb(160, 210, 235);</string>
        <property name="font">
         <font>
          <pointsize>12</pointsize>
+         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -131,6 +133,7 @@ background-color: rgb(160, 210, 235);</string>
          <property name="font">
           <font>
            <pointsize>11</pointsize>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -177,11 +180,12 @@ background-color: rgb(160, 210, 235);</string>
        <property name="font">
         <font>
          <pointsize>12</pointsize>
+         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
        <property name="text">
-        <string>Second System Name</string>
+        <string>Simulate with system:</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -214,6 +218,7 @@ background-color: rgb(160, 210, 235);</string>
        <property name="font">
         <font>
          <pointsize>11</pointsize>
+         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -251,11 +256,12 @@ background-color: rgb(160, 210, 235);</string>
        <property name="font">
         <font>
          <pointsize>12</pointsize>
+         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
        <property name="text">
-        <string>First System Name:</string>
+        <string>System to simulate:</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -285,6 +291,7 @@ background-color: rgb(160, 210, 235);</string>
        <property name="font">
         <font>
          <pointsize>8</pointsize>
+         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -310,6 +317,7 @@ background-color: rgb(160, 210, 235);</string>
        <property name="font">
         <font>
          <pointsize>12</pointsize>
+         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -347,6 +355,7 @@ background-color: rgb(160, 210, 235);</string>
        <property name="font">
         <font>
          <pointsize>11</pointsize>
+         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -388,6 +397,7 @@ background-color: rgb(160, 210, 235);</string>
        <property name="font">
         <font>
          <pointsize>11</pointsize>
+         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -456,8 +466,8 @@ background-color: rgb(160, 210, 235);</string>
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>652</width>
-          <height>118</height>
+          <width>705</width>
+          <height>98</height>
          </rect>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout">
@@ -484,6 +494,7 @@ background-color: rgb(160, 210, 235);</string>
            <property name="font">
             <font>
              <pointsize>11</pointsize>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
