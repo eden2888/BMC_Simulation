@@ -91,13 +91,13 @@ if __name__ == '__main__':
     # ks2 = SystemFactory.create_system(size=2, initials_density=0, density=100, attribute_probability=30)
     # ks1 = SystemUtils.load_system('C://BMC_Systems//original_pred.json')
     #G, node_names, colors_lst, plt1 = VisualUtils.preview_system(ks1)
+
+
     ks1, ks2 = create_test_structures()
     predictive_ks1 = SystemUtils.create_predictive_kripke_structure(ks1)
-    fixed_predictive_ks1 = SystemUtils.fix_predictive_indexing(predictive_ks1)
     predictive_ks2 = SystemUtils.create_predictive_kripke_structure(ks2)
-    fixed_predictive_ks2 = SystemUtils.fix_predictive_indexing(predictive_ks2)
-    SystemUtils.save_system(fixed_predictive_ks1, path='C://BMC_Systems//s1_predictive.json')
-    SystemUtils.save_system(fixed_predictive_ks2, path='C://BMC_Systems//s2_predictive.json')
+    SystemUtils.save_system(predictive_ks1, path='C://BMC_Systems//s1_predictive.json')
+    SystemUtils.save_system(predictive_ks2, path='C://BMC_Systems//s2_predictive.json')
 
     figure = plt.figure(figsize=([16, 16]))
     canvas = FigureCanvas(figure)

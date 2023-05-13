@@ -43,25 +43,14 @@ def preview_system_new_window(system):
     node_names = Utils.SystemUtils.get_node_names_dictionary(system)
     # Create the graph
     G = nx.MultiDiGraph()
+    # Makes sure nodes are on the appropriate indexes
+    for i in range(len(system.get_nodes())):
+        G.add_node(i)
     G.add_edges_from(sys1_relations)
     # Visualize
     nx.draw(G, with_labels=True, labels=node_names, node_size=800, node_color=colors_lst, pos=nx.kamada_kawai_layout(G))
     plt.show()
 
-
-@staticmethod
-def preview_system_test():
-    s1, s2 = create_test_structures()
-    system = s1
-    colors_lst = Utils.SystemUtils.get_node_color_list(system)
-    sys1_relations = Utils.SystemUtils.get_relations_list(system)
-    node_names = Utils.SystemUtils.get_node_names_dictionary(system)
-    # Create the graph
-    G = nx.MultiDiGraph()
-    G.add_edges_from(sys1_relations)
-    # Visualize
-    nx.draw(G, with_labels=True, labels=node_names, node_size=800, node_color=colors_lst, pos=nx.kamada_kawai_layout(G))
-    return G, node_names, colors_lst, plt
 @staticmethod
 def preview_system(system):
     colors_lst = Utils.SystemUtils.get_node_color_list(system)
@@ -75,7 +64,6 @@ def preview_system(system):
         G.add_node(i)
     # add relations to the nodes
     G.add_edges_from(sys1_relations)
-    nodes_order =list(G.nodes.keys())
     # Visualize
     nx.draw(G, with_labels=True, labels=node_names, node_size=800, node_color=colors_lst, pos=nx.kamada_kawai_layout(G))
     return G, node_names, colors_lst, plt
