@@ -1,19 +1,42 @@
 class Node:
-    def __init__(self, index, assignment="", isInitial=False):
-        self.__index = index
-        self.__assignment = assignment
-        self.__isInitial = isInitial
-        self.__relations = set()
-        self.nextAssignment = ''
-        self.nextNextAssignment = ''
+    #def __init__(self, index, assignment="", isInitial=False):
+    def __init__(self, index, assignment="", isInitial=False, **kwargs):
+        if len(kwargs) == 0:
+            self.__index = index
+            self.__assignment = assignment
+            self.__isInitial = isInitial
+            self.__relations = set()
+            self.nextAssignment = ''
+            self.nextNextAssignment = ''
+        else:
+            self.__index = index
+            self.__relations = set()
+            for key in kwargs.keys():
+                if key == 'node':
+                    self.__prev_index = kwargs.get(key).index
+                    self.__assignment = kwargs.get(key).assignment
+                    self.__isInitial = kwargs.get(key).isInitial
+                elif key == 'next':
+                    self.nextAssignment = kwargs.get(key)
+                elif key == 'nextNext':
+                    self.nextNextAssignment = kwargs.get(key)
+        # else:
+        #     self.__index = args[0]
+        #     self.__prev_index = args[1].index
+        #     self.__assignment = args[1].assignment
+        #     self.__isInitial = args[1].isInitial
+        #     self.__relations = set()
+        #     self.nextAssignment = args[2]
+        #     self.nextNextAssignment = args[3]
 
-    def __init__(self, node, next, nextNext):
-        self.__index = node.index
-        self.__assignment = node.assignment
-        self.__isInitial = node.isInitial
-        self.__relations = set()
-        self.nextAssignment = next
-        self.nextNextAssignment = nextNext
+    # def __init__(self, index, node, next, nextNext):
+    #     self.__index = index
+    #     self.__prev_index = node.index
+    #     self.__assignment = node.assignment
+    #     self.__isInitial = node.isInitial
+    #     self.__relations = set()
+    #     self.nextAssignment = next
+    #     self.nextNextAssignment = nextNext
 
     def __str__(self):
         return 'index: {self.__index}, relations: {self.__relations}, isInitial: {self.__isInitial}'.format(self=self)
@@ -22,6 +45,14 @@ class Node:
         if isinstance(other, Node):
             return self.assignment == other.assignment
         return False
+
+    @property
+    def prev_index(self):
+        return self.__prev_index
+
+    @prev_index.setter
+    def prev_index(self, value):
+        self.__prev_index == value
 
     @property
     def relations(self):

@@ -64,42 +64,62 @@ def create_test_structures():
     return m1, m2
 
 
+def test_predictive():
+    # m1 :
+    s0 = Node(0, isInitial=True)
+    s1 = Node(1, assignment='p')
+    s0.add_relation(1)
+    s1.add_relation(0)
+    m1 = KripkeStructure([s0, s1])
+    return m1
+
+
 if __name__ == '__main__':
-    # Prints PySide6 version
-    print(PySide6.__version__)
-
-    # Prints the Qt version used to compile PySide6
-    print(PySide6.QtCore.__version__)
-    
-
     # ks1 = SystemFactory.create_system(size=3, initials_density=0, density=100)
     # ks2 = SystemFactory.create_system(size=2, initials_density=0, density=100, attribute_probability=30)
-    ks1, ks2 = create_test_structures()
-    T = T_Matrix(ks1.get_size(), ks2.get_size())
-    i_1 = SystemUtils.get_i_formula(ks1, 'x')
-    i_2 = SystemUtils.get_i_formula(ks2, 'y')
-    c = i_1.children()
-    # print assignments:
-    for node in ks1.get_nodes():
-        print("ks1 index: " + str(node.index) + " ks1 assignment: " + str(node.assignment) + " initial: " + str(
-            node.isInitial))
-    for node in ks2.get_nodes():
-        print("ks2 index: " + str(node.index) + " ks2 assignment: " + str(node.assignment) + " initial: " + str(
-            node.isInitial))
-    # create T[m,n]:
-    alpha1 = SystemUtils.create_alpha_1(ks1, ks2, T)
-    print('Alpha 1: \n' + str(alpha1))
-    alpha2 = SystemUtils.create_alpha_2(ks1, ks2, T)
-    print('Alpha 2: \n' + str(alpha2))
-    alpha3 = SystemUtils.create_alpha_3(ks1, ks2, T)
-    print('Alpha 3: \n' + str(alpha3))
-    s = Solver()
-    s.add(alpha1)
-    s.add(alpha2)
-    s.add(alpha3)
-    print(s.check())
-    if s.check() != unsat:
-        print(s.model())
+    ks1 = test_predictive()
+    SystemUtils.save_system(ks1, path='C://BMC_Systems//original_pred.json')
+    predictive_ks1 = SystemUtils.create_predictive_kripke_structure(ks1)
+    SystemUtils.save_system(predictive_ks1, path='C://BMC_Systems//new_pred.json')
+    print('123')
+
+
+# if __name__ == '__main__':
+#     # Prints PySide6 version
+#     print(PySide6.__version__)
+#
+#     # Prints the Qt version used to compile PySide6
+#     print(PySide6.QtCore.__version__)
+#
+#
+#     # ks1 = SystemFactory.create_system(size=3, initials_density=0, density=100)
+#     # ks2 = SystemFactory.create_system(size=2, initials_density=0, density=100, attribute_probability=30)
+#     ks1, ks2 = create_test_structures()
+#     T = T_Matrix(ks1.get_size(), ks2.get_size())
+#     i_1 = SystemUtils.get_i_formula(ks1, 'x')
+#     i_2 = SystemUtils.get_i_formula(ks2, 'y')
+#     c = i_1.children()
+#     # print assignments:
+#     for node in ks1.get_nodes():
+#         print("ks1 index: " + str(node.index) + " ks1 assignment: " + str(node.assignment) + " initial: " + str(
+#             node.isInitial))
+#     for node in ks2.get_nodes():
+#         print("ks2 index: " + str(node.index) + " ks2 assignment: " + str(node.assignment) + " initial: " + str(
+#             node.isInitial))
+#     # create T[m,n]:
+#     alpha1 = SystemUtils.create_alpha_1(ks1, ks2, T)
+#     print('Alpha 1: \n' + str(alpha1))
+#     alpha2 = SystemUtils.create_alpha_2(ks1, ks2, T)
+#     print('Alpha 2: \n' + str(alpha2))
+#     alpha3 = SystemUtils.create_alpha_3(ks1, ks2, T)
+#     print('Alpha 3: \n' + str(alpha3))
+#     s = Solver()
+#     s.add(alpha1)
+#     s.add(alpha2)
+#     s.add(alpha3)
+#     print(s.check())
+#     if s.check() != unsat:
+#         print(s.model())
 
 
     def pickle_test():

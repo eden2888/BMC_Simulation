@@ -15,7 +15,7 @@ class GeneratorWidget(QWidget):
         self.generated_system = None
         self.system_name = None
         # load ui file:
-        uic.loadUi("UI/GeneratorUI.ui", self)
+        uic.loadUi("GUI/UI/GeneratorUI.ui", self)
 
         # hide irrelevant button
         self.BtnPreview.setVisible(False)

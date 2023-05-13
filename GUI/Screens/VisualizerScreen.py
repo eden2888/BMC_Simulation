@@ -20,7 +20,7 @@ class VisualizerWidget(QWidget):
         self.canvas = None
         self.toolbar = None
         self.figure = None
-        uic.loadUi("UI/VisualizerUI.ui", self)
+        uic.loadUi("GUI/UI/VisualizerUI.ui", self)
         # Buttons setup:
         self.BtnBack = QPushButton('< Back')
         self.BtnBack.setFixedSize(120, 30)

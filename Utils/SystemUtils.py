@@ -173,34 +173,32 @@ class SystemUtils:
 
     @staticmethod
     def create_predictive_kripke_structure(system):
-        predictive_nodes = {}
-        # create nodes:
+        predictive_nodes = []
+        i = 0
+
+        # Create Nodes:
         for node in system.get_nodes():
-            dupe_1 = Node(node, 0, 0)
-            dupe_2 = Node(node, 0, 1)
-            dupe_3 = Node(node, 1, 0)
-            dupe_4 = Node(node, 1, 1)
-            predictive_nodes.update( {str(node.index) + ',0,0' : dupe_1} )
-            predictive_nodes.update( {str(node.index) + ',0,1' : dupe_2} )
-            predictive_nodes.update( {str(node.index) + ',1,0' : dupe_3} )
-            predictive_nodes.update( {str(node.index) + ',1,1' : dupe_4} )
+            dupe_1 = Node(i, node=node, next=0, nextNext=0)
+            dupe_2 = Node(i+1, node=node, next=0, nextNext=1)
+            dupe_3 = Node(i+2, node=node, next=1, nextNext=0)
+            dupe_4 = Node(i+3, node=node, next=1, nextNext=1)
+            predictive_nodes.extend([dupe_1, dupe_2, dupe_3, dupe_4])
+            i += 4
 
-        origin_nodes = system.get_nodes()
-        # create relations:
-        for node in predictive_nodes.values():
-            original_node = origin_nodes[node.index]
+        # Create Relations
+        original_nodes = system.get_nodes()
+        for i in range(len(predictive_nodes)):
+            node = predictive_nodes[i]
+            original_node = original_nodes[node.prev_index]
             for relation in original_node.relations:
-                related_node = original_node[relation]
-                if related_node.assignment == '':
-                    hasAssignment = 0
-                else: hasAssignment = 1
-                # 2,0,1,0
-                if node.nextAssignment == hasAssignment and node.nextNextAssignment == 1: # 2,0,1,1 - > 3,1,1,0 & 3,1,1,1
-                    keyVal1 = str(relation)+'1,0'
-                    keyVal2 = str(relation)+'1,1'
-                    predictive_nodes.get(keyVal1)
-                    node.relations.add(keyVal1)
-                    node.relations.add(keyVal2)
-                    #node(assignment && next == 1, nextnext = dont cate)
+                related_node = original_nodes[relation]
+                has_assignment = 0 if related_node.assignment == '' else 1
+                if node.nextAssignment == has_assignment and node.nextNextAssignment == 1:
+                    node.relations.add(related_node.index * 4 + 2)
+                    node.relations.add(related_node.index * 4 + 3)
 
+                elif node.nextAssignment == has_assignment and node.nextNextAssignment == 0:
+                    node.relations.add(related_node.index * 4)
+                    node.relations.add(related_node.index * 4 + 1)
 
+        return KripkeStructure(predictive_nodes)
