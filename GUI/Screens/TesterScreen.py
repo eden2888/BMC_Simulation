@@ -12,7 +12,7 @@ class TesterWidget(QWidget):
         super(TesterWidget, self).__init__(parent)
 
         # load ui file:
-        uic.loadUi("UI/TesterUI.ui", self)
+        uic.loadUi("GUI/UI/TesterUI.ui", self)
         self.LabelResults.hide()
         self.populateComboBox()
         self.BtnRun.clicked.connect(self.runTester)

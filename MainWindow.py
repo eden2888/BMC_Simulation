@@ -12,7 +12,7 @@ class StartWidget(QWidget):
         super(StartWidget, self).__init__(parent)
 
         # load ui file:
-        uic.loadUi("UI/StartUI.ui", self)
+        uic.loadUi("GUI/UI/StartUI.ui", self)
 
 
 class UI(QMainWindow):
