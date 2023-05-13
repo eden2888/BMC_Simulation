@@ -4,6 +4,16 @@ class Node:
         self.__assignment = assignment
         self.__isInitial = isInitial
         self.__relations = set()
+        self.nextAssignment = ''
+        self.nextNextAssignment = ''
+
+    def __init__(self, node, next, nextNext):
+        self.__index = node.index
+        self.__assignment = node.assignment
+        self.__isInitial = node.isInitial
+        self.__relations = set()
+        self.nextAssignment = next
+        self.nextNextAssignment = nextNext
 
     def __str__(self):
         return 'index: {self.__index}, relations: {self.__relations}, isInitial: {self.__isInitial}'.format(self=self)

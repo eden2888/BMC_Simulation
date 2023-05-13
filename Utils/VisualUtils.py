@@ -4,8 +4,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 from KripkeStructureFramework.KripkeStructure import KripkeStructure
 from KripkeStructureFramework.Node import Node
-from Utils.SystemFactory import SystemFactory
-from Utils.SystemUtils import SystemUtils
+import Utils.SystemUtils as Utils
 import graphviz
 
 
@@ -39,9 +38,9 @@ def create_test_structures():
 
 @staticmethod
 def preview_system_new_window(system):
-    colors_lst = SystemUtils.get_node_color_list(system)
-    sys1_relations = SystemUtils.get_relations_list(system)
-    node_names = SystemUtils.get_node_names_dictionary(system)
+    colors_lst = Utils.SystemUtils.get_node_color_list(system)
+    sys1_relations = Utils.SystemUtils.get_relations_list(system)
+    node_names = Utils.SystemUtils.get_node_names_dictionary(system)
     # Create the graph
     G = nx.MultiDiGraph()
     G.add_edges_from(sys1_relations)
@@ -54,9 +53,9 @@ def preview_system_new_window(system):
 def preview_system_test():
     s1, s2 = create_test_structures()
     system = s1
-    colors_lst = SystemUtils.get_node_color_list(system)
-    sys1_relations = SystemUtils.get_relations_list(system)
-    node_names = SystemUtils.get_node_names_dictionary(system)
+    colors_lst = Utils.SystemUtils.get_node_color_list(system)
+    sys1_relations = Utils.SystemUtils.get_relations_list(system)
+    node_names = Utils.SystemUtils.get_node_names_dictionary(system)
     # Create the graph
     G = nx.MultiDiGraph()
     G.add_edges_from(sys1_relations)
@@ -65,9 +64,9 @@ def preview_system_test():
     return G, node_names, colors_lst, plt
 @staticmethod
 def preview_system(system):
-    colors_lst = SystemUtils.get_node_color_list(system)
-    sys1_relations = SystemUtils.get_relations_list(system)
-    node_names = SystemUtils.get_node_names_dictionary(system)
+    colors_lst = Utils.SystemUtils.get_node_color_list(system)
+    sys1_relations = Utils.SystemUtils.get_relations_list(system)
+    node_names = Utils.SystemUtils.get_node_names_dictionary(system)
     # Create the graph
     G = nx.MultiDiGraph()
     G.add_edges_from(sys1_relations)
@@ -78,8 +77,8 @@ def preview_system(system):
 @staticmethod
 def store_test_systems():
     s1, s2 = create_test_structures()
-    SystemUtils.save_system(s1, 'c:\BMC_Systems\s1.json')
-    SystemUtils.save_system(s2, 'c:\BMC_Systems\s2.json')
+    Utils.SystemUtils.save_system(s1, 'c:\BMC_Systems\s1.json')
+    Utils.SystemUtils.save_system(s2, 'c:\BMC_Systems\s2.json')
 
 
 #s1,s2 = create_test_structures()

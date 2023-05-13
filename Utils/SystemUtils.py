@@ -1,10 +1,7 @@
-import math
 import jsonpickle
-from datetime import date
 from KripkeStructureFramework.KripkeStructure import KripkeStructure
-from Utils import StateRef
-from Utils.StateRef import StateRef
-import z3
+from KripkeStructureFramework.Node import Node
+from Utils import VisualUtils
 from z3 import *
 
 from Utils.T_Matrix import T_Matrix
@@ -127,6 +124,10 @@ class SystemUtils:
 
     @staticmethod
     def get_all_systems_from_path():
+        # if no systems/path, create defaults:
+        if not os.path.exists("c:\BMC_Systems"):
+            os.mkdir("c:\BMC_Systems")
+        VisualUtils.store_test_systems()
         return [pos_json for pos_json in os.listdir('c:\BMC_Systems') if pos_json.endswith('.json')]
 
     @staticmethod
@@ -160,9 +161,6 @@ class SystemUtils:
     @staticmethod
     def check_simulation(sys1, sys2):
         T = T_Matrix(sys1.get_size(), sys2.get_size())
-        i_1 = SystemUtils.get_i_formula(sys1, 'x')
-        i_2 = SystemUtils.get_i_formula(sys2, 'y')
-        c = i_1.children()
         # create T[m,n]:
         alpha1 = SystemUtils.create_alpha_1(sys1, sys2, T)
         alpha2 = SystemUtils.create_alpha_2(sys1, sys2, T)
@@ -172,5 +170,37 @@ class SystemUtils:
         s.add(alpha2)
         s.add(alpha3)
         return s
+
+    @staticmethod
+    def create_predictive_kripke_structure(system):
+        predictive_nodes = {}
+        # create nodes:
+        for node in system.get_nodes():
+            dupe_1 = Node(node, 0, 0)
+            dupe_2 = Node(node, 0, 1)
+            dupe_3 = Node(node, 1, 0)
+            dupe_4 = Node(node, 1, 1)
+            predictive_nodes.update( {str(node.index) + ',0,0' : dupe_1} )
+            predictive_nodes.update( {str(node.index) + ',0,1' : dupe_2} )
+            predictive_nodes.update( {str(node.index) + ',1,0' : dupe_3} )
+            predictive_nodes.update( {str(node.index) + ',1,1' : dupe_4} )
+
+        origin_nodes = system.get_nodes()
+        # create relations:
+        for node in predictive_nodes.values():
+            original_node = origin_nodes[node.index]
+            for relation in original_node.relations:
+                related_node = original_node[relation]
+                if related_node.assignment == '':
+                    hasAssignment = 0
+                else: hasAssignment = 1
+                # 2,0,1,0
+                if node.nextAssignment == hasAssignment and node.nextNextAssignment == 1: # 2,0,1,1 - > 3,1,1,0 & 3,1,1,1
+                    keyVal1 = str(relation)+'1,0'
+                    keyVal2 = str(relation)+'1,1'
+                    predictive_nodes.get(keyVal1)
+                    node.relations.add(keyVal1)
+                    node.relations.add(keyVal2)
+                    #node(assignment && next == 1, nextnext = dont cate)
 
 
