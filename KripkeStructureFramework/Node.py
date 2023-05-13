@@ -8,6 +8,7 @@ class Node:
             self.__relations = set()
             self.nextAssignment = ''
             self.nextNextAssignment = ''
+            self.__prev_index = index
         else:
             self.__index = index
             self.__relations = set()
@@ -70,7 +71,7 @@ class Node:
         return self.__index
 
     @index.setter
-    def x(self, value):
+    def index(self, value):
         self.__index = value
 
     @property
