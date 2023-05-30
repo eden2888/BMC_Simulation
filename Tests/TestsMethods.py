@@ -99,8 +99,8 @@ def simulate_s1_list_with_s2_list(s1, s2, prediction_variables=True):
     for first in s1:
         for second in s2:
             if prediction_variables:
-                predictive_second_sys = SystemUtils.create_predictive_kripke_structure(second)
-                checker = SystemUtils.check_simulation(first, predictive_second_sys)
+                predictive_first_sys = SystemUtils.create_predictive_kripke_structure(first)
+                checker = SystemUtils.check_simulation(predictive_first_sys, second)
             else:
                 checker = SystemUtils.check_simulation(first, second)
 
