@@ -61,7 +61,6 @@ class SystemUtils:
 
     @staticmethod
     def create_alpha_1(system1, system2, T):
-        # T = T_Matrix(system1.get_size(), system2.get_size())
         alpha1 = None
         alpha1_expr_lst = []
         for q in system1.get_initials():
@@ -163,29 +162,6 @@ class SystemUtils:
         return colors_lst
 
     @staticmethod
-    def get_node_color_list_2(system, nodes_order):
-        # nodes_order = [0,8,1,7,15,16]
-        # [yes,no,yes,no,no...]
-        colors_lst = ['#CCCCFF'] * len(nodes_order)
-        for node in system.get_nodes():
-            if node.isInitial:
-                location = 0
-                # node.index = 1 -> colors_lst[2] = true
-                for i in range(len(nodes_order)):
-                    indx = node.index
-                    check_val = nodes_order[i]
-                    if_success = check_val == indx
-                    if nodes_order[i] == node.index:
-                        location = i
-                        break
-                colors_lst.insert(location, '#0080ff')
-                # colors_lst.append('#0080ff')
-            # else:
-            # colors_lst.insert(node.index, '#CCCCFF')
-            # colors_lst.append('#CCCCFF')
-        return colors_lst
-
-    @staticmethod
     def check_simulation(sys1, sys2):
         T = T_Matrix(sys1.get_size(), sys2.get_size())
         # create T[m,n]:
@@ -193,8 +169,8 @@ class SystemUtils:
         alpha2 = SystemUtils.create_alpha_2(sys1, sys2, T)
         alpha3 = SystemUtils.create_alpha_3(sys1, sys2, T)
         s = Solver()
-        s.add(alpha1)
-        s.add(alpha2)
+        # s.add(alpha1)
+        # s.add(alpha2)
         s.add(alpha3)
         return s
 
@@ -231,7 +207,6 @@ class SystemUtils:
         # Iteratively remove unnecessary nodes and relations
         unnecessary_nodes = True
         while unnecessary_nodes:
-            indexes_to_remove = []
             unnecessary_nodes = False
             for i in range(len(predictive_nodes)):
                 node = predictive_nodes[i]
@@ -244,11 +219,12 @@ class SystemUtils:
                         if deleted_index in predictive_nodes[j].relations:
                             predictive_nodes[j].relations.remove(deleted_index)
                     break
+        predictive_nodes = SystemUtils.fix_predictive_indexing(predictive_nodes)
         return KripkeStructure(predictive_nodes)
 
     @staticmethod
-    def fix_predictive_indexing(system):
-        original_nodes = system.get_nodes()
+    def fix_predictive_indexing(nodes_lst):
+        original_nodes = nodes_lst
         for i in range(len(original_nodes)):
             if original_nodes[i].index != i:
                 # fix index:
@@ -259,4 +235,4 @@ class SystemUtils:
                     if prev_index in original_nodes[j].relations:
                         original_nodes[j].relations.discard(prev_index)
                         original_nodes[j].relations.add(i)
-        return KripkeStructure(original_nodes)
+        return original_nodes

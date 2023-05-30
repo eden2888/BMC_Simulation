@@ -1,5 +1,5 @@
 class Node:
-    #def __init__(self, index, assignment="", isInitial=False):
+
     def __init__(self, index, assignment="", isInitial=False, **kwargs):
         if len(kwargs) == 0:
             self.__index = index
@@ -21,14 +21,6 @@ class Node:
                     self.nextAssignment = kwargs.get(key)
                 elif key == 'nextNext':
                     self.nextNextAssignment = kwargs.get(key)
-        # else:
-        #     self.__index = args[0]
-        #     self.__prev_index = args[1].index
-        #     self.__assignment = args[1].assignment
-        #     self.__isInitial = args[1].isInitial
-        #     self.__relations = set()
-        #     self.nextAssignment = args[2]
-        #     self.nextNextAssignment = args[3]
 
     # def __init__(self, index, node, next, nextNext):
     #     self.__index = index
