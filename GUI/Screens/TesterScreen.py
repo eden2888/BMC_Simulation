@@ -25,6 +25,7 @@ class TesterWidget(QWidget):
         sys1 = SystemUtils.load_system('c:\BMC_Systems\{}.json'.format(self.Sys1ComboBox.currentText()))
         sys2 = SystemUtils.load_system('c:\BMC_Systems\{}.json'.format(self.Sys2ComboBox.currentText()))
         predictive_sys2 = SystemUtils.create_predictive_kripke_structure(sys2)
+        predictive_sys1 = SystemUtils.create_predictive_kripke_structure(sys1)
         checker = SystemUtils.check_simulation(sys1, predictive_sys2)
         res_text = str(checker.check())
         if checker.check() != unsat:
