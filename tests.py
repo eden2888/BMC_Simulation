@@ -1,8 +1,12 @@
 import jsonpickle
+import networkx as nx
+from matplotlib import figure, pyplot as plt
 from z3 import *
 from KripkeStructureFramework.KripkeStructure import KripkeStructure
 from KripkeStructureFramework.Node import Node
+from Utils import VisualUtils
 from Utils.SystemUtils import SystemUtils
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from Utils.SystemFactory import SystemFactory
 from Utils.T_Matrix import T_Matrix
 
@@ -68,20 +72,40 @@ def test_predictive():
     # m1 :
     s0 = Node(0, isInitial=True)
     s1 = Node(1, assignment='p')
+    s2 = Node(2, assignment='p')
+    s0.add_relation(0)
     s0.add_relation(1)
+    s0.add_relation(2)
     s1.add_relation(0)
-    m1 = KripkeStructure([s0, s1])
+    s1.add_relation(1)
+    s1.add_relation(2)
+    s2.add_relation(0)
+    s2.add_relation(1)
+    s2.add_relation(2)
+    m1 = KripkeStructure([s0, s1, s2])
     return m1
 
 
 if __name__ == '__main__':
     # ks1 = SystemFactory.create_system(size=3, initials_density=0, density=100)
     # ks2 = SystemFactory.create_system(size=2, initials_density=0, density=100, attribute_probability=30)
-    ks1 = test_predictive()
-    SystemUtils.save_system(ks1, path='C://BMC_Systems//original_pred.json')
+    # ks1 = SystemUtils.load_system('C://BMC_Systems//original_pred.json')
+    #G, node_names, colors_lst, plt1 = VisualUtils.preview_system(ks1)
+    ks1, ks2 = create_test_structures()
     predictive_ks1 = SystemUtils.create_predictive_kripke_structure(ks1)
-    SystemUtils.save_system(predictive_ks1, path='C://BMC_Systems//new_pred.json')
-    print('123')
+    fixed_predictive_ks1 = SystemUtils.fix_predictive_indexing(predictive_ks1)
+    predictive_ks2 = SystemUtils.create_predictive_kripke_structure(ks2)
+    fixed_predictive_ks2 = SystemUtils.fix_predictive_indexing(predictive_ks2)
+    SystemUtils.save_system(fixed_predictive_ks1, path='C://BMC_Systems//s1_predictive.json')
+    SystemUtils.save_system(fixed_predictive_ks2, path='C://BMC_Systems//s2_predictive.json')
+
+    figure = plt.figure(figsize=([16, 16]))
+    canvas = FigureCanvas(figure)
+    G, node_names, colors_lst, plt1 = VisualUtils.preview_system(predictive_ks1)
+    figure.clf()
+    nx.draw(G, with_labels=True, labels=node_names, node_size=800, node_color=colors_lst,
+            pos=nx.kamada_kawai_layout(G))
+    canvas.draw_idle()
 
 
 # if __name__ == '__main__':

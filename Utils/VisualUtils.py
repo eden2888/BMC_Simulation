@@ -69,7 +69,13 @@ def preview_system(system):
     node_names = Utils.SystemUtils.get_node_names_dictionary(system)
     # Create the graph
     G = nx.MultiDiGraph()
+    nodes_size = len(system.get_nodes())
+    # Makes sure nodes are on the appropriate indexes
+    for i in range(nodes_size):
+        G.add_node(i)
+    # add relations to the nodes
     G.add_edges_from(sys1_relations)
+    nodes_order =list(G.nodes.keys())
     # Visualize
     nx.draw(G, with_labels=True, labels=node_names, node_size=800, node_color=colors_lst, pos=nx.kamada_kawai_layout(G))
     return G, node_names, colors_lst, plt

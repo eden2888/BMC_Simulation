@@ -3,8 +3,12 @@ from KripkeStructureFramework.KripkeStructure import KripkeStructure
 from KripkeStructureFramework.Node import Node
 from Utils import VisualUtils
 from z3 import *
-
 from Utils.T_Matrix import T_Matrix
+
+NEXT_0_0_OFFSET = 0
+NEXT_0_1_OFFSET = 1
+NEXT_1_0_OFFSET = 2
+NEXT_1_1_OFFSET = 3
 
 
 class SystemUtils:
@@ -159,6 +163,29 @@ class SystemUtils:
         return colors_lst
 
     @staticmethod
+    def get_node_color_list_2(system, nodes_order):
+        # nodes_order = [0,8,1,7,15,16]
+        # [yes,no,yes,no,no...]
+        colors_lst = ['#CCCCFF'] * len(nodes_order)
+        for node in system.get_nodes():
+            if node.isInitial:
+                location = 0
+                # node.index = 1 -> colors_lst[2] = true
+                for i in range(len(nodes_order)):
+                    indx = node.index
+                    check_val = nodes_order[i]
+                    if_success = check_val == indx
+                    if nodes_order[i] == node.index:
+                        location = i
+                        break
+                colors_lst.insert(location, '#0080ff')
+                # colors_lst.append('#0080ff')
+            # else:
+            # colors_lst.insert(node.index, '#CCCCFF')
+            # colors_lst.append('#CCCCFF')
+        return colors_lst
+
+    @staticmethod
     def check_simulation(sys1, sys2):
         T = T_Matrix(sys1.get_size(), sys2.get_size())
         # create T[m,n]:
@@ -179,9 +206,9 @@ class SystemUtils:
         # Create Nodes:
         for node in system.get_nodes():
             dupe_1 = Node(i, node=node, next=0, nextNext=0)
-            dupe_2 = Node(i+1, node=node, next=0, nextNext=1)
-            dupe_3 = Node(i+2, node=node, next=1, nextNext=0)
-            dupe_4 = Node(i+3, node=node, next=1, nextNext=1)
+            dupe_2 = Node(i + 1, node=node, next=0, nextNext=1)
+            dupe_3 = Node(i + 2, node=node, next=1, nextNext=0)
+            dupe_4 = Node(i + 3, node=node, next=1, nextNext=1)
             predictive_nodes.extend([dupe_1, dupe_2, dupe_3, dupe_4])
             i += 4
 
@@ -194,11 +221,42 @@ class SystemUtils:
                 related_node = original_nodes[relation]
                 has_assignment = 0 if related_node.assignment == '' else 1
                 if node.nextAssignment == has_assignment and node.nextNextAssignment == 1:
-                    node.relations.add(related_node.index * 4 + 2)
-                    node.relations.add(related_node.index * 4 + 3)
+                    node.relations.add(related_node.index * 4 + NEXT_1_0_OFFSET)
+                    node.relations.add(related_node.index * 4 + NEXT_1_1_OFFSET)
 
                 elif node.nextAssignment == has_assignment and node.nextNextAssignment == 0:
-                    node.relations.add(related_node.index * 4)
-                    node.relations.add(related_node.index * 4 + 1)
+                    node.relations.add(related_node.index * 4 + NEXT_0_0_OFFSET)
+                    node.relations.add(related_node.index * 4 + NEXT_0_1_OFFSET)
 
+        # Iteratively remove unnecessary nodes and relations
+        unnecessary_nodes = True
+        while unnecessary_nodes:
+            indexes_to_remove = []
+            unnecessary_nodes = False
+            for i in range(len(predictive_nodes)):
+                node = predictive_nodes[i]
+                if len(node.relations) == 0:
+                    deleted_index = node.index
+                    del predictive_nodes[i]
+                    unnecessary_nodes = True
+                    # remove all relations to the deleted index
+                    for j in range(len(predictive_nodes)):
+                        if deleted_index in predictive_nodes[j].relations:
+                            predictive_nodes[j].relations.remove(deleted_index)
+                    break
         return KripkeStructure(predictive_nodes)
+
+    @staticmethod
+    def fix_predictive_indexing(system):
+        original_nodes = system.get_nodes()
+        for i in range(len(original_nodes)):
+            if original_nodes[i].index != i:
+                # fix index:
+                prev_index = original_nodes[i].index
+                original_nodes[i].index = i
+                # fix pointing relations
+                for j in range(len(original_nodes)):
+                    if prev_index in original_nodes[j].relations:
+                        original_nodes[j].relations.discard(prev_index)
+                        original_nodes[j].relations.add(i)
+        return KripkeStructure(original_nodes)
