@@ -169,8 +169,8 @@ class SystemUtils:
         alpha2 = SystemUtils.create_alpha_2(sys1, sys2, T)
         alpha3 = SystemUtils.create_alpha_3(sys1, sys2, T)
         s = Solver()
-        # s.add(alpha1)
-        # s.add(alpha2)
+        s.add(alpha1)
+        s.add(alpha2)
         s.add(alpha3)
         return s
 

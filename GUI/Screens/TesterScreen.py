@@ -24,12 +24,25 @@ class TesterWidget(QWidget):
     def runTester(self):
         sys1 = SystemUtils.load_system('c:\BMC_Systems\{}.json'.format(self.Sys1ComboBox.currentText()))
         sys2 = SystemUtils.load_system('c:\BMC_Systems\{}.json'.format(self.Sys2ComboBox.currentText()))
+        predictive_sys1 = SystemUtils.create_predictive_kripke_structure(sys1)
         predictive_sys2 = SystemUtils.create_predictive_kripke_structure(sys2)
-        checker = SystemUtils.check_simulation(sys1, predictive_sys2)
+        checker = SystemUtils.check_simulation(predictive_sys1, sys2)
         res_text = str(checker.check())
         if checker.check() != unsat:
             res_text = res_text + '\n' + str(checker.model())
-        self.LabelResults.setText(res_text)
+            res_text = res_text[:-1]
+            text = res_text.split('[')[0].upper()
+            res_lst = []
+            mat_lst = res_text.split('[')[1].split(',')
+            mat_lst[0] = '\n ' + mat_lst[0]
+            for val in mat_lst:
+                converted = val.replace('T', 'T[').replace(' =', '] =').replace('__', ',').replace('T[rue', 'True').replace('[T', 'T').replace(' T', 'T')
+                res_lst.append(converted)
+            for elle in sorted(res_lst):
+                text += elle
+            self.LabelResults.setText(text)
+        else:
+            self.LabelResults.setText('UNSAT')
         self.LabelResults.show()
 
     def populateComboBox(self):
