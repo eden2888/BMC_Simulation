@@ -5,6 +5,7 @@ from Utils import VisualUtils
 from z3 import *
 from Utils.T_Matrix import T_Matrix
 
+# Constants
 NEXT_0_0_OFFSET = 0
 NEXT_0_1_OFFSET = 1
 NEXT_1_0_OFFSET = 2
@@ -50,14 +51,6 @@ class SystemUtils:
                 i_formula_lst.append(node_expr_lst[0])
         i_formula = Or(i_formula_lst)
         return i_formula
-
-    @staticmethod
-    def get_q_formula(system):
-        return 0
-
-    @staticmethod
-    def get_r_formula(system):
-        return 0
 
     @staticmethod
     def create_alpha_1(system1, system2, T):

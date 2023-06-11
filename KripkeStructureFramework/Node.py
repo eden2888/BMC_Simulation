@@ -1,4 +1,10 @@
 class Node:
+    '''
+    This class holds a single node in a Kripke Structure
+    Each node consists of a several variables:
+    Index, Assignment, isInitial flag, set of relations to other nodes (set of indexes)
+    and assignments for prediction variables
+    '''
 
     def __init__(self, index, assignment="", isInitial=False, **kwargs):
         if len(kwargs) == 0:
@@ -21,15 +27,6 @@ class Node:
                     self.nextAssignment = kwargs.get(key)
                 elif key == 'nextNext':
                     self.nextNextAssignment = kwargs.get(key)
-
-    # def __init__(self, index, node, next, nextNext):
-    #     self.__index = index
-    #     self.__prev_index = node.index
-    #     self.__assignment = node.assignment
-    #     self.__isInitial = node.isInitial
-    #     self.__relations = set()
-    #     self.nextAssignment = next
-    #     self.nextNextAssignment = nextNext
 
     def __str__(self):
         return 'index: {self.__index}, relations: {self.__relations}, isInitial: {self.__isInitial}'.format(self=self)

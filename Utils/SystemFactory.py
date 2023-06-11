@@ -98,6 +98,17 @@ class SystemFactory:
 
     @staticmethod
     def export_system(path, file_name, system):
+        '''
+        This methods exports a kripke structure to a .json file on the file system
+        :param path: path to the wanted folder
+        :type path:
+        :param file_name: desired file name
+        :type file_name:
+        :param system: kripke structure
+        :type system:
+        :return:
+        :rtype:
+        '''
         json_object = jsonpickle.encode(system)
         # json.dumps(system)
         # Writing to sample.json
@@ -107,6 +118,13 @@ class SystemFactory:
 
     @staticmethod
     def import_system(file_path):
+        '''
+        This methods creates a kripke structure from a .json file
+        :param file_path: path to the .json file
+        :type file_path:
+        :return: Kripke structure
+        :rtype:
+        '''
         with open(file_path) as f:
             data = f.read()
         ks = jsonpickle.decode(data)

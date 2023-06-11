@@ -73,8 +73,3 @@ def store_test_systems():
     s1, s2 = create_test_structures()
     Utils.SystemUtils.save_system(s1, 'c:\BMC_Systems\s1.json')
     Utils.SystemUtils.save_system(s2, 'c:\BMC_Systems\s2.json')
-
-
-#s1,s2 = create_test_structures()
-#temp = preview_system(s1)
-#temp.show()

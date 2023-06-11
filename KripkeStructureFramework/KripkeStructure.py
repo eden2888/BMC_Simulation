@@ -1,14 +1,13 @@
-from KripkeStructureFramework import Node
-
-
 class KripkeStructure:
+    '''
+    A data type that holds a kripke structure as a set of nodes with connectioncs between them
+    '''
     def __init__(self, nodes):
         if not (isinstance(nodes, list)):
             raise ValueError(f"Invalid input for nodes !")
         self.__nodes = nodes
 
     def get_initials(self):
-        #return filter(lambda node: node.isInitial == True , self.__nodes)
         return [node for node in self.__nodes if node.isInitial]
 
     def get_nodes(self):
