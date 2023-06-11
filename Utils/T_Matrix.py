@@ -2,6 +2,9 @@ from z3 import *
 
 
 class T_Matrix:
+    '''
+    A class that holds a matrix of boolean variables for Z3 library use.
+    '''
     def __init__(self, n, m):
         self.m = m
         self.n = n
