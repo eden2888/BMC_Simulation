@@ -36,7 +36,7 @@ background-color: rgb(160, 210, 235);</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="3" column="0">
-    <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0,0,0,0,0" columnstretch="0,0,0">
+    <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0,0,0,0" columnstretch="0,0,0">
      <property name="sizeConstraint">
       <enum>QLayout::SetDefaultConstraint</enum>
      </property>
@@ -52,21 +52,43 @@ background-color: rgb(160, 210, 235);</string>
      <property name="bottomMargin">
       <number>4</number>
      </property>
-     <item row="3" column="2">
-      <widget class="QPushButton" name="BtnPrev2">
-       <property name="maximumSize">
+     <item row="4" column="1">
+      <layout class="QHBoxLayout" name="HBoxDensity"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="LblSysDensity">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
         <size>
-         <width>80</width>
-         <height>16777215</height>
+         <width>200</width>
+         <height>40</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="text">
-        <string>Preview</string>
+        <string>System to simulate:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+       <property name="margin">
+        <number>2</number>
        </property>
       </widget>
      </item>
-     <item row="6" column="1">
-      <layout class="QHBoxLayout" name="HBoxInitials"/>
+     <item row="10" column="2">
+      <layout class="QHBoxLayout" name="HBoxSaveButtons"/>
      </item>
      <item row="3" column="1">
       <widget class="QComboBox" name="Sys2ComboBox">
@@ -82,39 +104,7 @@ background-color: rgb(160, 210, 235);</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="LblSysSize">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>40</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Sub-System Initial size:</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-       </property>
-       <property name="margin">
-        <number>2</number>
-       </property>
-      </widget>
-     </item>
-     <item row="10" column="1">
+     <item row="9" column="1">
       <layout class="QHBoxLayout" name="HBoxGenerate">
        <item>
         <widget class="QPushButton" name="BtnRun">
@@ -144,24 +134,34 @@ background-color: rgb(160, 210, 235);</string>
        </item>
       </layout>
      </item>
-     <item row="2" column="2">
-      <widget class="QPushButton" name="BtnPrev1">
-       <property name="maximumSize">
+     <item row="8" column="1">
+      <layout class="QHBoxLayout" name="HBoxProb"/>
+     </item>
+     <item row="9" column="0">
+      <widget class="QPushButton" name="BtnBack">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
         <size>
-         <width>80</width>
-         <height>16777215</height>
+         <width>60</width>
+         <height>30</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>8</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="text">
-        <string>Preview</string>
+        <string>&lt; Back</string>
        </property>
       </widget>
-     </item>
-     <item row="4" column="1">
-      <layout class="QHBoxLayout" name="HBoxDensity"/>
-     </item>
-     <item row="11" column="2">
-      <layout class="QHBoxLayout" name="HBoxSaveButtons"/>
      </item>
      <item row="3" column="0">
       <widget class="QLabel" name="LblSyName">
@@ -195,7 +195,33 @@ background-color: rgb(160, 210, 235);</string>
        </property>
       </widget>
      </item>
-     <item row="8" column="1">
+     <item row="3" column="2">
+      <widget class="QPushButton" name="BtnPrev2">
+       <property name="maximumSize">
+        <size>
+         <width>80</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Preview</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QPushButton" name="BtnPrev1">
+       <property name="maximumSize">
+        <size>
+         <width>80</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Preview</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
       <widget class="QLineEdit" name="LineTimeout">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -239,68 +265,7 @@ background-color: rgb(160, 210, 235);</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="LblSysDensity">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>200</width>
-         <height>40</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>System to simulate:</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-       </property>
-       <property name="margin">
-        <number>2</number>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="1">
-      <layout class="QHBoxLayout" name="HBoxProb"/>
-     </item>
-     <item row="10" column="0">
-      <widget class="QPushButton" name="BtnBack">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>60</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>8</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>&lt; Back</string>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="0">
+     <item row="7" column="0">
       <widget class="QLabel" name="LblSysAttributes">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -333,50 +298,9 @@ background-color: rgb(160, 210, 235);</string>
       </widget>
      </item>
      <item row="5" column="1">
-      <widget class="QLineEdit" name="LineSubSysSize">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>20</width>
-         <height>25</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>80</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>11</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(217, 226, 255)</string>
-       </property>
-       <property name="inputMask">
-        <string/>
-       </property>
-       <property name="maxLength">
-        <number>3</number>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-       </property>
-      </widget>
+      <layout class="QHBoxLayout" name="HBoxInitials"/>
      </item>
-     <item row="10" column="2">
+     <item row="9" column="2">
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>

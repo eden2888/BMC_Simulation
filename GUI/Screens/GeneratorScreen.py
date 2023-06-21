@@ -88,7 +88,8 @@ class GeneratorWidget(QWidget):
         self.generated_system = ks
 
     def saveBtnHandler(self):
-        fileName, _ = QFileDialog.getSaveFileName(self, "Save generated system", self.system_name, "json (*.json)")
+        defaultPath = 'C:\\BMC_Systems\\' + str(self.system_name)
+        fileName, _ = QFileDialog.getSaveFileName(self, "Save generated system", defaultPath, "json (*.json)")
         if fileName:
             SystemUtils.save_system(self.generated_system, fileName)
             print('Stored successfully')

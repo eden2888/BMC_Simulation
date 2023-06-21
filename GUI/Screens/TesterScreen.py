@@ -18,7 +18,6 @@ class TesterWidget(QWidget):
         self.BtnRun.clicked.connect(self.runTester)
         self.BtnPrev1.clicked.connect(lambda: self.previewSystem(1))
         self.BtnPrev2.clicked.connect(lambda: self.previewSystem(2))
-        self.LineSubSysSize.setText('1')
         self.LineTimeout.setText('60')
 
     def runTester(self):

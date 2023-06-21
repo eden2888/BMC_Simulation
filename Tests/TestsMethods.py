@@ -5,7 +5,7 @@ from Utils.SystemUtils import SystemUtils
 from Utils.SystemFactory import SystemFactory
 
 
-def prepare_random_systems_systems(amount, sizeRange):
+def prepare_random_systems(amount, sizeRange):
     '''
     creates 'amount' list of random systems according to the range size.
     :param sizeRange: range of systems sizes
@@ -18,7 +18,7 @@ def prepare_random_systems_systems(amount, sizeRange):
     systems = []
     for i in range(0, amount):
         # randomize values:
-        density = random.randint(0, 100)
+        density = random.randint(10, 15)
         size = random.randint(sizeRange[0], sizeRange[1])
         systems.append(SystemFactory.create_system(density=density, size=size))
     return systems
@@ -44,15 +44,27 @@ def saveListOfSystems(systems, name_prefix, path = 'C://BMC_Systems//'):
 
 def prepare_test_1_systems():
     """
-    Test 1: test the behaviour of simulation between small and large systems.
+    Test 1: test the behaviour of simulation between small and large density systems.
     :return:
     :rtype:
     """
-    small_systems = prepare_random_systems_systems(30, [2, 15])
-    large_systems = prepare_random_systems_systems(30, [30, 100])
+    small_systems = prepare_random_systems(20, [2, 5])
+    large_systems = prepare_random_systems(20, [10, 30])
     # store systems on file system for tests consistency:
-    saveListOfSystems(small_systems, 'small(2-15)')
-    saveListOfSystems(large_systems, 'large(30-100)')
+    saveListOfSystems(small_systems, 'small(2-5)')
+    saveListOfSystems(large_systems, 'large(10-30)')
+
+def prepare_test_2_systems():
+    """
+    Test 2: test the behaviour of simulation between two sets of systems with the same size.
+    :return:
+    :rtype:
+    """
+    set1 = prepare_random_systems(4, [2, 5])
+    set2 = prepare_random_systems(4, [5, 15])
+    set3 = prepare_random_systems(4, [15, 30])
+    # store systems on file system for tests consistency:
+    return set1+set2+set3
 
 
 def load_systems_list(path, prefix):
@@ -78,9 +90,20 @@ def load_systems_for_test_1():
     :return: 2 lists of systems, 1 small and 1 large.
     :rtype:tuple
     """
-    small_systems = load_systems_list('C://BMC_Systems//', 'small(2-15)')
-    large_systems = load_systems_list('C://BMC_Systems//', 'large(30-100)')
+    small_systems = load_systems_list('C://BMC_Systems//', 'small(2-5)')
+    large_systems = load_systems_list('C://BMC_Systems//', 'large(10-30)')
     return small_systems, large_systems
+
+
+def load_systems_for_test_2():
+    """
+    Loads the default files for test #1
+    :return: 2 lists of systems of the same size
+    :rtype:tuple
+    """
+    set1 = load_systems_list('C://BMC_Systems//', 'set1')
+    set2 = load_systems_list('C://BMC_Systems//', 'set2')
+    return set1, set2
 
 
 def simulate_s1_list_with_s2_list(s1, s2, prediction_variables=True):
