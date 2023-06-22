@@ -18,7 +18,6 @@ class TesterWidget(QWidget):
         self.BtnRun.clicked.connect(self.runTester)
         self.BtnPrev1.clicked.connect(lambda: self.previewSystem(1))
         self.BtnPrev2.clicked.connect(lambda: self.previewSystem(2))
-        self.LineSubSysSize.setText('1')
         self.LineTimeout.setText('60')
 
     def runTester(self):
@@ -46,6 +45,8 @@ class TesterWidget(QWidget):
         self.LabelResults.show()
 
     def populateComboBox(self):
+        self.Sys1ComboBox.clear()
+        self.Sys2ComboBox.clear()
         systems_lst = SystemUtils.get_all_systems_from_path()
         remove_ends = [lambda x: x[:-5] for x in systems_lst]
         for system in systems_lst:
