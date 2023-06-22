@@ -45,6 +45,8 @@ class TesterWidget(QWidget):
         self.LabelResults.show()
 
     def populateComboBox(self):
+        self.Sys1ComboBox.clear()
+        self.Sys2ComboBox.clear()
         systems_lst = SystemUtils.get_all_systems_from_path()
         remove_ends = [lambda x: x[:-5] for x in systems_lst]
         for system in systems_lst:

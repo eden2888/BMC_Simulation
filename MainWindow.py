@@ -53,6 +53,7 @@ class UI(QMainWindow):
         self.central_widget.setCurrentWidget(self.start_screen)
 
     def setTesterScreen(self):
+        self.tester_screen.populateComboBox()
         self.central_widget.setCurrentWidget(self.tester_screen)
 
 
